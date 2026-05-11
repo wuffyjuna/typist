@@ -5,6 +5,7 @@
 const SERIF = "'Fraunces', 'Cormorant Garamond', serif";
 const SANS  = "'DM Sans', 'IBM Plex Sans Thai', system-ui, sans-serif";
 const MONO  = "'JetBrains Mono', ui-monospace, monospace";
+const PLAYPEN = "'Playpen Sans Thai', 'Playpen Sans', " + SANS;
 
 const BB = {
   cream:  "#F5F1E8",
@@ -172,7 +173,7 @@ function Hero() {
           <SectionLabel num="01" label="Typesetting · Cover · e-Book" />
 
           <h1 style={{
-            fontFamily: "'Playpen Sans Thai', 'Playpen Sans', " + SANS,
+            fontFamily: PLAYPEN,
             fontWeight: 600,
             fontSize: 76, lineHeight: 1.1, letterSpacing: "-0.02em",
             margin: "22px 0 0", color: BB.ink,
@@ -223,15 +224,25 @@ function Hero() {
             display: "grid", gridTemplateColumns: "1fr 1fr",
             transform: "rotate(-3deg)",
           }}>
-            <div style={{ borderRight: "1px solid #ECE6DA", padding: "32px 28px",
+            <div style={{ borderRight: "1px solid #ECE6DA", padding: "28px 22px",
                           background: "linear-gradient(90deg, transparent, #faf6ec 92%)" }}>
-              <div style={{ fontFamily: SERIF, fontSize: 15, color: "#9b8aa4",
-                            fontStyle: "italic", marginBottom: 14 }}>บทที่ 7</div>
-              <div style={{ fontFamily: SERIF, fontSize: 22, lineHeight: 1.2,
-                            color: BB.ink, marginBottom: 18 }}>คืนหนึ่งของเดือนเมษา</div>
+              <div style={{ textAlign: "center", marginBottom: 16 }}>
+                <div style={{
+                  fontFamily: MONO, fontSize: 10, letterSpacing: "0.16em",
+                  textTransform: "uppercase", color: BB.mute, marginBottom: 8,
+                }}>ขยายกระดาษ</div>
+                <div style={{
+                  fontFamily: PLAYPEN, fontSize: 12.5, fontWeight: 500, color: "#9b8aa4",
+                  fontStyle: "italic", marginBottom: 6,
+                }}>บทที่ 7</div>
+                <div style={{
+                  fontFamily: PLAYPEN, fontSize: 15, fontWeight: 500, lineHeight: 1.35,
+                  color: BB.ink,
+                }}>คืนหนึ่งของเดือนเมษา</div>
+              </div>
               {[...Array(10)].map((_, i) => (
                 <div key={i} style={{ height: 4, background: BB.line, borderRadius: 2,
-                                       width: i === 9 ? "60%" : "100%", marginTop: 7 }} />
+                                       width: i === 9 ? "60%" : "100%", marginTop: 7, marginLeft: "auto", marginRight: "auto" }} />
               ))}
             </div>
             <div style={{ padding: "32px 28px",
@@ -246,27 +257,18 @@ function Hero() {
             </div>
           </div>
 
-          <div style={{ position: "absolute", left: 80, bottom: 90 }}>
-            <PlaceholderBookCover w={300} h={70} tone="pink" label="" sub="Press · 2026" />
-          </div>
-          <div style={{ position: "absolute", left: 60, bottom: 160 }}>
-            <PlaceholderBookCover w={320} h={70} tone="lavender" label="" sub="ePub · 3.0" tilt={2} />
-          </div>
-          <div style={{ position: "absolute", left: 100, bottom: 230 }}>
-            <PlaceholderBookCover w={280} h={70} tone="mint" label="" sub="Cover · 3-part" tilt={-1} />
-          </div>
-
           <div style={{
             position: "absolute", right: 30, top: 20,
             width: 200, padding: 16, borderRadius: 14, background: "#fff",
             boxShadow: "0 14px 30px -10px rgba(40,30,50,0.2)",
+            textAlign: "center",
           }}>
             <div style={{ fontFamily: MONO, fontSize: 10,
                           letterSpacing: "0.18em", color: BB.blue, textTransform: "uppercase" }}>
               Margins
             </div>
-            <div style={{ fontFamily: SERIF, fontSize: 19, color: BB.ink,
-                          marginTop: 6, lineHeight: 1.2 }}>
+            <div style={{ fontFamily: PLAYPEN, fontSize: 16, fontWeight: 500, color: BB.ink,
+                          marginTop: 6, lineHeight: 1.35, textAlign: "center" }}>
               ขอบกระดาษ<br />ตามมาตรฐานสากล
             </div>
           </div>
