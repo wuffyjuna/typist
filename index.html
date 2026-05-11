@@ -12,9 +12,11 @@
                  font-family: 'DM Sans', 'IBM Plex Sans Thai', system-ui, sans-serif;
                  color: #2d2a26; }
     * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
     /* Center the 1440-wide page within the viewport */
     #root { display: flex; flex-direction: column; align-items: center; }
-    #root > section { width: 1440px; }
+    #root > section { width: 1440px; scroll-margin-top: 88px; }
+    #root > nav { scroll-margin-top: 0; }
   </style>
   <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
   <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
@@ -31,12 +33,16 @@
     function App() {
       return (
         <>
+          <Nav />
           <Hero />
           <Services />
+          <WhyUs />
           <Portfolio />
           <Process />
           <Terms />
           <PricingQueue />
+          <Blog />
+          <Contact />
           <CTA />
         </>
       );

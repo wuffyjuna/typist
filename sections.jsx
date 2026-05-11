@@ -84,15 +84,32 @@ function PlaceholderBookCover({ w, h, label, sub, tone = "lavender", tilt = 0, s
 
 /* ─────────────────────────── NAV ─────────────────────────── */
 
+const NAV_LINKS = [
+  { href: "#services", label: "บริการ" },
+  { href: "#portfolio", label: "ผลงาน" },
+  { href: "#pricing", label: "ราคา & คิว" },
+  { href: "#blog", label: "บล็อก" },
+  { href: "#contact", label: "ติดต่อ" },
+];
+
 function Nav() {
-  const NAV = ["บริการ", "ผลงาน", "ราคา & คิว", "บล็อก", "ติดต่อ"];
+  const linkSx = {
+    color: "inherit", textDecoration: "none",
+    borderBottom: "1px solid transparent", paddingBottom: 2,
+  };
   return (
     <nav style={{
-      position: "absolute", top: 0, left: 0, right: 0, zIndex: 10,
+      position: "fixed", top: 0, left: "50%", transform: "translateX(-50%)",
+      zIndex: 1000, width: 1440, maxWidth: "100%",
       display: "flex", alignItems: "center", justifyContent: "space-between",
-      padding: "28px 72px",
+      padding: "20px 72px",
+      background: "rgba(239, 231, 216, 0.92)",
+      backdropFilter: "blur(10px)",
+      WebkitBackdropFilter: "blur(10px)",
+      borderBottom: "1px solid " + BB.line,
+      boxSizing: "border-box",
     }}>
-      <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+      <a href="#top" style={{ display: "flex", alignItems: "center", gap: 12, textDecoration: "none", color: "inherit" }}>
         <div style={{
           width: 38, height: 38, borderRadius: 11,
           background: BB.ink, color: "#fff",
@@ -103,18 +120,21 @@ function Nav() {
                       letterSpacing: "-0.01em", fontWeight: 500 }}>
           Bookbind <span style={{ opacity: 0.5, fontWeight: 400 }}>Studio</span>
         </div>
-      </div>
-      <ul style={{ display: "flex", gap: 36, listStyle: "none", margin: 0, padding: 0,
+      </a>
+      <ul style={{ display: "flex", gap: 32, listStyle: "none", margin: 0, padding: 0,
                    fontFamily: SANS, fontSize: 14.5, color: BB.ink2 }}>
-        {NAV.map((n, i) => (
-          <li key={i} style={{ cursor: "pointer" }}>{n}</li>
+        {NAV_LINKS.map((item) => (
+          <li key={item.href}>
+            <a href={item.href} style={linkSx}>{item.label}</a>
+          </li>
         ))}
       </ul>
-      <button style={{
+      <a href="#contact" style={{
         background: BB.ink, color: "#fff", border: "none",
         padding: "13px 22px", borderRadius: 12,
         fontFamily: SANS, fontSize: 14, fontWeight: 500, cursor: "pointer",
-      }}>ส่งต้นฉบับ →</button>
+        textDecoration: "none", display: "inline-block",
+      }}>ส่งต้นฉบับ →</a>
     </nav>
   );
 }
@@ -123,9 +143,10 @@ function Nav() {
 
 function Hero() {
   return (
-    <section style={{
+    <section id="top" style={{
       width: 1440, height: 900, position: "relative", overflow: "hidden",
       background: BB.cream2, color: BB.ink, fontFamily: SANS,
+      scrollMarginTop: 0,
     }}>
       <div style={{ position: "absolute", left: 0, top: 0, width: "55%", height: "100%",
                     background: "linear-gradient(180deg, #F6F1E5 0%, #EFE7D8 100%)" }} />
@@ -137,10 +158,8 @@ function Hero() {
                     background: "linear-gradient(135deg, #E89BA9, #B6D9C2 70%, #C9BFE0)",
                     opacity: 0.65 }} />
 
-      <Nav />
-
       <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr",
-                    padding: "120px 72px 0", position: "relative", zIndex: 2 }}>
+                    padding: "128px 72px 0", position: "relative", zIndex: 2 }}>
         <div style={{ paddingTop: 24 }}>
           <SectionLabel num="01" label="Typesetting · Cover · e-Book" />
 
@@ -176,13 +195,14 @@ function Hero() {
           </div>
 
           <div style={{ display: "flex", gap: 14, marginTop: 40, alignItems: "center" }}>
-            <button style={{
+            <a href="#pricing" style={{
               background: BB.ink, color: "#fff", border: "none",
               padding: "18px 30px", borderRadius: 14, fontSize: 15, fontWeight: 500,
               cursor: "pointer", fontFamily: SANS,
               display: "inline-flex", alignItems: "center", gap: 10,
-            }}>คำนวณราคา <span style={{ fontSize: 18 }}>→</span></button>
-            <a style={{ fontSize: 14.5, color: BB.ink, textDecoration: "underline",
+              textDecoration: "none",
+            }}>คำนวณราคา <span style={{ fontSize: 18 }}>→</span></a>
+            <a href="#queue" style={{ fontSize: 14.5, color: BB.ink, textDecoration: "underline",
                         textUnderlineOffset: 5, cursor: "pointer" }}>หรือดูคิวปัจจุบัน</a>
           </div>
         </div>
@@ -250,7 +270,7 @@ function Hero() {
 
 /* ─────────────────────────── SERVICES ─────────────────────────── */
 
-function ServiceCard({ num, icon, title, sub, items, tag, tone }) {
+function ServiceCard({ num, icon, title, sub, items, tag, tone, exampleHref = "#portfolio" }) {
   const accents = {
     lav:  { bg: "#EBE5F5", chip: BB.lav,  line: BB.lav },
     pink: { bg: "#F8E4E8", chip: BB.pink, line: BB.pink },
@@ -305,10 +325,11 @@ function ServiceCard({ num, icon, title, sub, items, tag, tone }) {
       }}>
         <span style={{ fontFamily: MONO, fontSize: 11, color: BB.mute,
                        letterSpacing: "0.1em", textTransform: "uppercase" }}>{tag}</span>
-        <span style={{ fontSize: 14, color: BB.ink, cursor: "pointer",
-                       display: "inline-flex", alignItems: "center", gap: 6 }}>
+        <a href={exampleHref} style={{ fontSize: 14, color: BB.ink, cursor: "pointer",
+                       display: "inline-flex", alignItems: "center", gap: 6,
+                       textDecoration: "none" }}>
           ดูตัวอย่าง <span>→</span>
-        </span>
+        </a>
       </div>
     </div>
   );
@@ -316,7 +337,7 @@ function ServiceCard({ num, icon, title, sub, items, tag, tone }) {
 
 function Services() {
   return (
-    <section style={{
+    <section id="services" style={{
       width: 1440, padding: "120px 72px", background: BB.paper,
       color: BB.ink, fontFamily: SANS, position: "relative",
     }}>
@@ -399,6 +420,8 @@ const PORTFOLIO = [
   { id: "p6", tone: "sand",     type: "ผจญภัย",     note: "Press + Cover" },
 ];
 
+const PORTFOLIO_FILTERS = ["ทั้งหมด", "นิยายรัก", "นวนิยาย", "เรื่องสั้น", "สืบสวน", "Novella", "ผจญภัย"];
+
 function PortfolioCard({ item, idx }) {
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
@@ -437,8 +460,13 @@ function PortfolioCard({ item, idx }) {
 }
 
 function Portfolio() {
+  const [filter, setFilter] = React.useState("ทั้งหมด");
+  const filtered = filter === "ทั้งหมด"
+    ? PORTFOLIO
+    : PORTFOLIO.filter((p) => p.type === filter);
+
   return (
-    <section style={{
+    <section id="portfolio" style={{
       width: 1440, padding: "120px 72px",
       background: "linear-gradient(180deg, #FAF6EC 0%, #F5F1E8 100%)",
       color: BB.ink, fontFamily: SANS, position: "relative", overflow: "hidden",
@@ -479,16 +507,19 @@ function Portfolio() {
         <div style={{ display: "flex", flexDirection: "column", gap: 12, alignItems: "flex-end" }}>
           <div style={{ display: "flex", gap: 8, flexWrap: "wrap",
                         justifyContent: "flex-end", maxWidth: 460 }}>
-            {["ทั้งหมด", "นิยายรัก", "เรื่องสั้น", "สืบสวน", "Novella", "ผจญภัย"].map((t, i) => (
-              <span key={i} style={{
-                padding: "9px 16px", borderRadius: 999,
-                background: i === 0 ? BB.ink : "#fff",
-                color: i === 0 ? "#fff" : BB.ink2,
-                fontSize: 13, fontFamily: SANS,
-                border: i === 0 ? "none" : "1px solid " + BB.line,
-                cursor: "pointer",
-              }}>{t}</span>
-            ))}
+            {PORTFOLIO_FILTERS.map((t) => {
+              const active = filter === t;
+              return (
+                <button key={t} type="button" onClick={() => setFilter(t)} style={{
+                  padding: "9px 16px", borderRadius: 999,
+                  background: active ? BB.ink : "#fff",
+                  color: active ? "#fff" : BB.ink2,
+                  fontSize: 13, fontFamily: SANS,
+                  border: active ? "none" : "1px solid " + BB.line,
+                  cursor: "pointer",
+                }}>{t}</button>
+              );
+            })}
           </div>
         </div>
       </div>
@@ -498,9 +529,19 @@ function Portfolio() {
         display: "grid", gridTemplateColumns: "repeat(3, 1fr)",
         gap: 32, position: "relative",
       }}>
-        {PORTFOLIO.map((item, i) => (
-          <PortfolioCard key={i} item={item} idx={i} />
-        ))}
+        {filtered.length === 0 ? (
+          <div style={{ gridColumn: "1 / -1", textAlign: "center", padding: "48px 24px", color: BB.mute }}>
+            ยังไม่มีตัวอย่างในหมวดนี้
+            <button type="button" onClick={() => setFilter("ทั้งหมด")} style={{
+              marginLeft: 12, background: "none", border: "none", color: BB.lav,
+              textDecoration: "underline", cursor: "pointer", fontFamily: SANS, fontSize: 15,
+            }}>แสดงทั้งหมด</button>
+          </div>
+        ) : (
+          filtered.map((item, i) => (
+            <PortfolioCard key={item.id} item={item} idx={i} />
+          ))
+        )}
       </div>
 
       {/* Bottom CTA strip */}
@@ -528,14 +569,15 @@ function Portfolio() {
         </div>
 
         <div style={{ textAlign: "right" }}>
-          <button style={{
+          <a href="#contact" style={{
             background: BB.ink, color: "#fff", border: "none",
             padding: "16px 26px", borderRadius: 12,
             fontFamily: SANS, fontSize: 14.5, fontWeight: 500, cursor: "pointer",
             display: "inline-flex", alignItems: "center", gap: 10,
+            textDecoration: "none",
           }}>
             ส่งต้นฉบับ <span>→</span>
-          </button>
+          </a>
         </div>
       </div>
     </section>
@@ -568,7 +610,7 @@ function PricingQueue() {
   const deposit = Math.round(total * 0.5);
 
   return (
-    <section style={{
+    <section id="pricing" style={{
       width: 1440, padding: "120px 72px",
       background: BB.cream2, color: BB.ink, fontFamily: SANS,
       position: "relative", overflow: "hidden",
@@ -583,7 +625,7 @@ function PricingQueue() {
       <div style={{ display: "grid", gridTemplateColumns: "1fr 1.1fr",
                     gap: 60, alignItems: "end", marginBottom: 56, position: "relative" }}>
         <div>
-          <SectionLabel num="05" label="ราคา & คิว" color={BB.blue} />
+          <SectionLabel num="07" label="ราคา & คิว" color={BB.blue} />
           <h2 style={{
             fontFamily: "'Playpen Sans Thai', " + SANS,
             fontWeight: 600, fontSize: 56,
@@ -845,19 +887,20 @@ function PricingQueue() {
                     {deposit.toLocaleString("th-TH")} บาท
                   </div>
                 </div>
-                <button style={{
+                <a href="#contact" style={{
                   background: "#fff", color: BB.ink, border: "none",
                   padding: "14px 22px", borderRadius: 12,
                   fontFamily: SANS, fontSize: 14, fontWeight: 500, cursor: "pointer",
                   display: "inline-flex", alignItems: "center", gap: 8,
-                }}>จองคิวเลย <span>→</span></button>
+                  textDecoration: "none",
+                }}>จองคิวเลย <span>→</span></a>
               </div>
             </div>
           </div>
         </div>
 
         {/* Queue panel */}
-        <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+        <div id="queue" style={{ display: "flex", flexDirection: "column", gap: 16, scrollMarginTop: 88 }}>
           <div style={{
             background: "#fff", borderRadius: 24, padding: 32,
             boxShadow: "0 6px 30px -14px rgba(60,40,40,0.14)",
@@ -929,11 +972,12 @@ function PricingQueue() {
                     <span style={{ fontSize: 14, color: BB.ink }}>{s.date}</span>
                   </div>
                   {s.status === "open" ? (
-                    <button style={{
+                    <a href="#contact" style={{
                       background: BB.ink, color: "#fff", border: "none",
                       padding: "6px 14px", borderRadius: 999,
                       fontFamily: SANS, fontSize: 12.5, cursor: "pointer",
-                    }}>จองช่วงนี้ →</button>
+                      textDecoration: "none", display: "inline-block",
+                    }}>จองช่วงนี้ →</a>
                   ) : (
                     <span style={{ fontFamily: MONO, fontSize: 11, color: BB.mute,
                                    letterSpacing: "0.1em" }}>{s.id}</span>

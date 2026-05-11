@@ -3,6 +3,7 @@
 
 (function () {
   const { BB, SERIF, SANS, MONO, SectionLabel } = window;
+  const CONTACT_EMAIL = "hello@bookbind.studio";
 
   /* ─────────────────────────── WHY US (2x2) ─────────────────────────── */
   function WhyUs() {
@@ -33,7 +34,7 @@
       },
       {
         icon: "❦",
-        tone: BB.mint && "#3f8a5a",
+        tone: "#5fa37a",
         bg: "#DEEEE3",
         title: "เข้าใจวรรณกรรม",
         body: "เราอ่านงานคุณก่อนจัด เพื่อให้ typography กับจังหวะการอ่านส่งเสริมเรื่อง ไม่ใช่แค่จัดหน้าให้สวย",
@@ -42,7 +43,7 @@
     ];
 
     return (
-      <section style={{
+      <section id="why-us" style={{
         background: "#FAF6EC",
         padding: "100px 64px 96px",
         position: "relative",
@@ -50,7 +51,7 @@
         color: BB.ink,
       }}>
         <div style={{ maxWidth: 1280, margin: "0 auto" }}>
-          <SectionLabel num="04" label="Why Bookbind" />
+          <SectionLabel num="03" label="Why Bookbind" />
 
           <div style={{
             marginTop: 18,
@@ -142,7 +143,7 @@
     ];
 
     return (
-      <section style={{
+      <section id="process" style={{
         background: "linear-gradient(180deg, #FAF6EC 0%, #F5EFE0 100%)",
         padding: "100px 64px 96px",
         position: "relative",
@@ -200,7 +201,7 @@
               position: "relative",
             }}>
               {steps.map((s, i) => {
-                const dotColors = [BB.lav, BB.pink, BB.blue, "#cc8a6e", BB.mint && "#3f8a5a"];
+                const dotColors = [BB.lav, BB.pink, BB.blue, "#cc8a6e", "#3f8a5a"];
                 const c = dotColors[i];
                 return (
                   <div key={i} style={{
@@ -292,14 +293,14 @@
     ];
 
     return (
-      <section style={{
+      <section id="terms" style={{
         background: BB.paper,
         padding: "100px 64px 96px",
         fontFamily: SANS, color: BB.ink,
         position: "relative",
       }}>
         <div style={{ maxWidth: 1280, margin: "0 auto" }}>
-          <SectionLabel num="07" label="Workflow & Terms" />
+          <SectionLabel num="06" label="Workflow & Terms" />
 
           <div style={{
             marginTop: 18,
@@ -470,10 +471,198 @@
     );
   }
 
+  /* ─────────────────────────── BLOG (teasers) ─────────────────────────── */
+  function Blog() {
+    const posts = [
+      {
+        tag: "Typography",
+        title: "เลือกฟอนต์นิยายอย่างไรให้โรงพิมพ์ไม่บ่น",
+        excerpt: "เช็กลิสต์สิทธิ์การใช้งาน การเว้นวรรค และขนาดบรรทัดที่อ่านสบายบนกระดาษ A5 / A6",
+      },
+      {
+        tag: "e-Book",
+        title: "ePub 3.0 กับ Kindle: สิ่งที่นักเขียนควรรู้ก่อนส่งไฟล์",
+        excerpt: "Reflowable vs fixed layout และจุดที่มักทำให้สารบัญเพี้ยนบนเครื่องอ่านจริง",
+      },
+      {
+        tag: "Workflow",
+        title: "เตรียมต้นฉบับก่อนจัดรูปเล่มให้ครบในสองรอบแก้",
+        excerpt: "ทำไมการบรูฟจากนักเขียนก่อนส่งงานถึงช่วยประหยัดเวลาและค่าแก้รอบหลัง",
+      },
+    ];
+
+    return (
+      <section id="blog" style={{
+        background: "linear-gradient(180deg, " + BB.cream2 + " 0%, " + BB.paper + " 100%)",
+        padding: "100px 64px 96px",
+        fontFamily: SANS,
+        color: BB.ink,
+        position: "relative",
+      }}>
+        <div style={{ maxWidth: 1280, margin: "0 auto" }}>
+          <SectionLabel num="08" label="บล็อก · บทความ" color={BB.lav} />
+
+          <div style={{
+            marginTop: 18,
+            display: "grid", gridTemplateColumns: "1.1fr 0.9fr", gap: 48, alignItems: "end",
+          }}>
+            <h2 style={{
+              fontFamily: "'Playpen Sans Thai', " + SANS, fontWeight: 600,
+              fontSize: 48, lineHeight: 1.1, letterSpacing: "-0.02em",
+              margin: 0, color: BB.ink,
+            }}>
+              เคล็ดจัดเล่ม<br />
+              <span style={{ color: BB.blue }}>สำหรับนักเขียน</span>
+            </h2>
+            <p style={{ margin: 0, fontSize: 16, lineHeight: 1.65, color: BB.ink2, maxWidth: 420 }}>
+              อัปเดตเป็นครั้งคราว — หากอยากให้เขียนหัวข้อไหนเป็นพิเศษ แจ้งเราได้ที่ช่องทางติดต่อ
+            </p>
+          </div>
+
+          <div style={{
+            marginTop: 48, display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 22,
+          }}>
+            {posts.map((p, i) => (
+              <article key={i} style={{
+                background: "#fff", borderRadius: 20, padding: "28px 26px 24px",
+                border: "1px solid " + BB.line,
+                boxShadow: "0 6px 22px -14px rgba(60,40,40,0.12)",
+                display: "flex", flexDirection: "column", gap: 12, minHeight: 220,
+              }}>
+                <span style={{
+                  fontFamily: MONO, fontSize: 10, letterSpacing: "0.18em",
+                  textTransform: "uppercase", color: BB.mute,
+                }}>{p.tag}</span>
+                <h3 style={{
+                  fontFamily: "'Playpen Sans Thai', " + SANS, fontWeight: 600,
+                  fontSize: 18, lineHeight: 1.35, margin: 0, color: BB.ink,
+                }}>{p.title}</h3>
+                <p style={{ margin: 0, fontSize: 14, lineHeight: 1.6, color: BB.ink2, flex: 1 }}>
+                  {p.excerpt}
+                </p>
+                <a href="#contact" style={{
+                  fontSize: 13.5, fontWeight: 500, color: BB.lav,
+                  textDecoration: "none", marginTop: 4,
+                  display: "inline-flex", alignItems: "center", gap: 6,
+                }}>
+                  ติดต่อ / ขอลิงก์บทความเต็ม <span>→</span>
+                </a>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  /* ─────────────────────────── CONTACT ─────────────────────────── */
+  function Contact() {
+    function onSubmit(e) {
+      e.preventDefault();
+      const fd = new FormData(e.target);
+      const name = String(fd.get("name") || "").trim();
+      const email = String(fd.get("email") || "").trim();
+      const message = String(fd.get("message") || "").trim();
+      const subject = encodeURIComponent("[Bookbind Studio] สอบถามจาก " + (name || "เว็บไซต์"));
+      const body = encodeURIComponent(
+        (name ? "ชื่อ: " + name + "\n" : "") +
+        (email ? "อีเมล: " + email + "\n\n" : "\n") +
+        (message || "(ไม่มีข้อความ)")
+      );
+      window.location.href = "mailto:" + CONTACT_EMAIL + "?subject=" + subject + "&body=" + body;
+    }
+
+    return (
+      <section id="contact" style={{
+        background: BB.paper,
+        padding: "100px 64px 96px",
+        fontFamily: SANS,
+        color: BB.ink,
+      }}>
+        <div style={{ maxWidth: 1280, margin: "0 auto" }}>
+          <SectionLabel num="09" label="ติดต่อเรา" color={BB.pink} />
+
+          <div style={{
+            marginTop: 18,
+            display: "grid", gridTemplateColumns: "1fr 1fr", gap: 56, alignItems: "start",
+          }}>
+            <div>
+              <h2 style={{
+                fontFamily: "'Playpen Sans Thai', " + SANS, fontWeight: 600,
+                fontSize: 44, lineHeight: 1.12, letterSpacing: "-0.02em",
+                margin: 0, color: BB.ink,
+              }}>
+                ส่งต้นฉบับหรือสอบถาม<br />
+                <span style={{ color: BB.pink }}>เราตอบภายใน 24 ชม.</span>
+              </h2>
+              <p style={{ margin: "18px 0 0", fontSize: 15.5, lineHeight: 1.65, color: BB.ink2, maxWidth: 420 }}>
+                กรอกแบบฟอร์มด้านขวาแล้วกดส่ง — จะเปิดโปรแกรมอีเมลของคุณพร้อมข้อความ
+                หรือคัดลอกอีเมลด้านล่างไปใช้ได้เลย
+              </p>
+              <div style={{ marginTop: 28, display: "flex", flexDirection: "column", gap: 12 }}>
+                <a href={"mailto:" + CONTACT_EMAIL} style={{
+                  fontFamily: MONO, fontSize: 14, color: BB.ink, textDecoration: "none",
+                  borderBottom: "1px solid " + BB.line, paddingBottom: 4, display: "inline-block", width: "fit-content",
+                }}>{CONTACT_EMAIL}</a>
+                <a href="https://line.me/ti/p/~@bookbindstudio" target="_blank" rel="noopener noreferrer" style={{
+                  fontSize: 14.5, color: BB.ink2, textDecoration: "none",
+                }}>
+                  Line Official <span style={{ color: BB.lav }}>→</span> <span style={{ fontFamily: MONO, fontSize: 12, color: BB.mute }}>@bookbindstudio</span>
+                </a>
+                <span style={{ fontSize: 13, color: BB.mute }}>
+                  แก้ ID Line ในไฟล์ closing.jsx ให้ตรงกับบัญชีจริงของคุณ
+                </span>
+              </div>
+            </div>
+
+            <form onSubmit={onSubmit} style={{
+              background: "#fff", borderRadius: 22, padding: "32px 28px",
+              border: "1px solid " + BB.line,
+              boxShadow: "0 8px 28px -16px rgba(60,40,40,0.15)",
+              display: "flex", flexDirection: "column", gap: 16,
+            }}>
+              <label style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+                <span style={{ fontSize: 13, fontWeight: 500, color: BB.ink2 }}>ชื่อ / นามปากกา</span>
+                <input name="name" type="text" required placeholder="เช่น นามปากกา หรือชื่อจริง"
+                       style={{
+                         padding: "12px 14px", borderRadius: 12, border: "1px solid " + BB.line,
+                         fontFamily: SANS, fontSize: 15, outline: "none",
+                       }} />
+              </label>
+              <label style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+                <span style={{ fontSize: 13, fontWeight: 500, color: BB.ink2 }}>อีเมลติดต่อกลับ</span>
+                <input name="email" type="email" required placeholder="you@example.com"
+                       style={{
+                         padding: "12px 14px", borderRadius: 12, border: "1px solid " + BB.line,
+                         fontFamily: SANS, fontSize: 15, outline: "none",
+                       }} />
+              </label>
+              <label style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+                <span style={{ fontSize: 13, fontWeight: 500, color: BB.ink2 }}>รายละเอียดงาน / คำถาม</span>
+                <textarea name="message" rows={5} required placeholder="จำนวนหน้า ประเภทงาน กำหนดส่ง ฯลฯ"
+                          style={{
+                            padding: "12px 14px", borderRadius: 12, border: "1px solid " + BB.line,
+                            fontFamily: SANS, fontSize: 15, outline: "none", resize: "vertical",
+                          }} />
+              </label>
+              <button type="submit" style={{
+                marginTop: 4, background: BB.ink, color: "#fff", border: "none",
+                padding: "16px 22px", borderRadius: 14, fontFamily: SANS, fontSize: 15,
+                fontWeight: 500, cursor: "pointer",
+              }}>
+                เปิดอีเมลเพื่อส่ง →
+              </button>
+            </form>
+          </div>
+        </div>
+      </section>
+    );
+  }
+
   /* ─────────────────────────── CTA (standalone after Pricing) ─────────────────────────── */
   function CTA() {
     return (
-      <section style={{
+      <section id="cta" style={{
         background: BB.paper,
         padding: "64px 64px 100px",
         fontFamily: SANS,
@@ -525,25 +714,27 @@
               display: "flex", flexDirection: "column", gap: 12, alignItems: "stretch",
               position: "relative", zIndex: 1,
             }}>
-              <button style={{
+              <a href="#contact" style={{
                 background: BB.cream, color: BB.ink, border: "none",
                 padding: "18px 28px", borderRadius: 14,
                 fontFamily: SANS, fontSize: 15.5, fontWeight: 500, cursor: "pointer",
                 display: "inline-flex", alignItems: "center", justifyContent: "space-between",
+                textDecoration: "none",
               }}>
                 <span>ส่งต้นฉบับ / สอบถาม</span>
                 <span style={{ fontSize: 18 }}>→</span>
-              </button>
-              <button style={{
+              </a>
+              <a href="#pricing" style={{
                 background: "transparent", color: BB.cream,
                 border: "1.5px solid " + BB.cream + "55",
                 padding: "18px 28px", borderRadius: 14,
                 fontFamily: SANS, fontSize: 15.5, fontWeight: 500, cursor: "pointer",
                 display: "inline-flex", alignItems: "center", justifyContent: "space-between",
+                textDecoration: "none",
               }}>
                 <span>คำนวณราคาก่อน</span>
                 <span style={{ fontSize: 18, opacity: 0.7 }}>→</span>
-              </button>
+              </a>
               <div style={{
                 marginTop: 4,
                 fontFamily: MONO, fontSize: 10.5, letterSpacing: "0.16em",
@@ -557,5 +748,5 @@
     );
   }
 
-  Object.assign(window, { WhyUs, Process, Terms, CTA });
+  Object.assign(window, { WhyUs, Process, Terms, Blog, Contact, CTA });
 })();
