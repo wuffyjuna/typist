@@ -553,16 +553,8 @@ function Portfolio() {
         gap: 60, alignItems: "center", position: "relative",
       }}>
         <div>
-          <div style={{
-            fontFamily: "'Playpen Sans Thai', " + SANS,
-            fontSize: 30, fontWeight: 600, color: BB.ink,
-            lineHeight: 1.25,
-          }}>
-            อยากให้นิยายของคุณ<br />
-            <span style={{ color: BB.lav }}>ดูสวยแบบนี้?</span>
-          </div>
-          <p style={{ marginTop: 12, fontSize: 15.5, lineHeight: 1.65,
-                      color: BB.ink2, maxWidth: 480 }}>
+          <p style={{ margin: 0, fontSize: 15.5, lineHeight: 1.65,
+                      color: BB.ink2, maxWidth: 520 }}>
             ส่งต้นฉบับมาให้เราดู เริ่มต้นจัดรูปเล่มได้ทันที
             พร้อมตอบกลับภายใน 24 ชั่วโมง
           </p>
