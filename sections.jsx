@@ -488,7 +488,7 @@ function Portfolio() {
         alignItems: "end", marginBottom: 56, gap: 60, position: "relative",
       }}>
         <div>
-          <SectionLabel num="04" label="ตัวอย่างผลงาน" color={BB.pink} />
+          <SectionLabel num="03" label="ตัวอย่างผลงาน" color={BB.pink} />
           <h2 style={{
             fontFamily: "'Playpen Sans Thai', " + SANS,
             fontWeight: 600, fontSize: 56,
@@ -543,35 +543,6 @@ function Portfolio() {
           ))
         )}
       </div>
-
-      {/* Bottom CTA strip */}
-      <div style={{
-        marginTop: 56, padding: "40px 48px", borderRadius: 24,
-        background: "#fff",
-        boxShadow: "0 4px 24px -10px rgba(60,40,40,0.10)",
-        display: "grid", gridTemplateColumns: "1.4fr 1fr",
-        gap: 60, alignItems: "center", position: "relative",
-      }}>
-        <div>
-          <p style={{ margin: 0, fontSize: 15.5, lineHeight: 1.65,
-                      color: BB.ink2, maxWidth: 520 }}>
-            ส่งต้นฉบับมาให้เราดู เริ่มต้นจัดรูปเล่มได้ทันที
-            พร้อมตอบกลับภายใน 24 ชั่วโมง
-          </p>
-        </div>
-
-        <div style={{ textAlign: "right" }}>
-          <a href="#contact" style={{
-            background: BB.ink, color: "#fff", border: "none",
-            padding: "16px 26px", borderRadius: 12,
-            fontFamily: SANS, fontSize: 14.5, fontWeight: 500, cursor: "pointer",
-            display: "inline-flex", alignItems: "center", gap: 10,
-            textDecoration: "none",
-          }}>
-            ส่งต้นฉบับ <span>→</span>
-          </a>
-        </div>
-      </div>
     </section>
   );
 }
@@ -617,7 +588,7 @@ function PricingQueue() {
       <div style={{ display: "grid", gridTemplateColumns: "1fr 1.1fr",
                     gap: 60, alignItems: "end", marginBottom: 56, position: "relative" }}>
         <div>
-          <SectionLabel num="07" label="ราคา & คิว" color={BB.blue} />
+          <SectionLabel num="06" label="ราคา & คิว" color={BB.blue} />
           <h2 style={{
             fontFamily: "'Playpen Sans Thai', " + SANS,
             fontWeight: 600, fontSize: 56,

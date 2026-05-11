@@ -1,122 +1,9 @@
 /* global React */
-/* Bookbind Studio — Why Us + Process sections */
+/* Bookbind Studio — Process, Terms, Blog, Contact, CTA */
 
 (function () {
   const { BB, SERIF, SANS, MONO, SectionLabel } = window;
   const CONTACT_EMAIL = "hello@bookbind.studio";
-
-  /* ─────────────────────────── WHY US (2x2) ─────────────────────────── */
-  function WhyUs() {
-    const reasons = [
-      {
-        icon: "✦",
-        tone: BB.lav,
-        bg: "#EBE5F5",
-        title: "ละเอียด แม่นยำ",
-        body: "จัดหน้าด้วย InDesign CC ตามมาตรฐานสำนักพิมพ์ ทั้ง bleed, margin, gutter และ widow/orphan control",
-        meta: "InDesign CC · PDF/X-1a:2001",
-      },
-      {
-        icon: "◷",
-        tone: BB.pink,
-        bg: "#FBE6EA",
-        title: "ส่งตรงเวลา",
-        body: "ส่งมอบภายใน 7–10 วันมาตรฐาน หรือด่วนพิเศษ 3 วัน พร้อมรายงานความคืบหน้าระหว่างทาง",
-        meta: "Status update ทุก 2–3 วัน",
-      },
-      {
-        icon: "✎",
-        tone: BB.blue,
-        bg: "#DDEAF3",
-        title: "สื่อสารชัดเจน",
-        body: "คุยกันได้ตลอด เปลี่ยนได้ระหว่างทาง และมีรอบแก้ฟรี 2 รอบหลังส่งมอบ ไม่ต้องเกรงใจ",
-        meta: "Line · Email · DM ตามสะดวก",
-      },
-      {
-        icon: "❦",
-        tone: "#5fa37a",
-        bg: "#DEEEE3",
-        title: "เข้าใจวรรณกรรม",
-        body: "เราอ่านงานคุณก่อนจัด เพื่อให้ typography กับจังหวะการอ่านส่งเสริมเรื่อง ไม่ใช่แค่จัดหน้าให้สวย",
-        meta: "Read-first workflow",
-      },
-    ];
-
-    return (
-      <section id="why-us" style={{
-        background: "#FAF6EC",
-        padding: "100px 64px 96px",
-        position: "relative",
-        fontFamily: SANS,
-        color: BB.ink,
-      }}>
-        <div style={{ maxWidth: 1280, margin: "0 auto" }}>
-          <SectionLabel num="03" label="Why Bookbind" />
-
-          <p style={{
-            margin: "18px 0 0", maxWidth: 720, fontSize: 16.5, lineHeight: 1.7, color: BB.ink2,
-          }}>
-            สี่เหตุผลที่นักเขียนเลือกให้ Bookbind ดูแลต้นฉบับ —
-            ไม่ใช่เพราะเราถูกที่สุด แต่เพราะเราใส่ใจกับสิ่งที่คุณใส่ใจ
-          </p>
-
-          <div style={{
-            marginTop: 56,
-            display: "grid", gridTemplateColumns: "1fr 1fr", gap: 24,
-          }}>
-            {reasons.map((r, i) => (
-              <div key={i} style={{
-                background: "#fff",
-                borderRadius: 24,
-                padding: "36px 36px 32px",
-                boxShadow: "0 6px 24px -14px rgba(60,40,40,0.18)",
-                border: "1px solid " + BB.line,
-                position: "relative", overflow: "hidden",
-                display: "flex", flexDirection: "column", gap: 20,
-              }}>
-                <div style={{
-                  position: "absolute", top: -40, right: -40,
-                  width: 160, height: 160, borderRadius: "50%",
-                  background: r.bg, opacity: 0.6,
-                }} />
-
-                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between",
-                              position: "relative", zIndex: 1 }}>
-                  <div style={{
-                    width: 56, height: 56, borderRadius: 16,
-                    background: r.bg,
-                    display: "grid", placeItems: "center",
-                    fontFamily: SERIF, fontSize: 28, color: r.tone, lineHeight: 1,
-                  }}>{r.icon}</div>
-                  <div style={{
-                    fontFamily: MONO, fontSize: 10.5, letterSpacing: "0.2em",
-                    textTransform: "uppercase", color: BB.mute,
-                  }}>0{i + 1}</div>
-                </div>
-
-                <div style={{ position: "relative", zIndex: 1 }}>
-                  <h3 style={{
-                    fontFamily: "'Playpen Sans Thai', " + SANS,
-                    fontWeight: 600, fontSize: 24, margin: 0, color: BB.ink,
-                  }}>{r.title}</h3>
-                  <p style={{
-                    margin: "12px 0 0", fontSize: 15.5, lineHeight: 1.65, color: BB.ink2,
-                  }}>{r.body}</p>
-                </div>
-
-                <div style={{
-                  marginTop: "auto", paddingTop: 18,
-                  borderTop: "1px dashed " + BB.line,
-                  fontFamily: MONO, fontSize: 11, letterSpacing: "0.14em",
-                  textTransform: "uppercase", color: BB.mute,
-                }}>{r.meta}</div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-    );
-  }
 
   /* ─────────────────────────── PROCESS (5 steps) ─────────────────────────── */
   function Process() {
@@ -145,7 +32,7 @@
         }} />
 
         <div style={{ maxWidth: 1280, margin: "0 auto", position: "relative" }}>
-          <SectionLabel num="05" label="Process · 5 steps" />
+          <SectionLabel num="04" label="Process · 5 steps" />
 
           <div style={{
             marginTop: 18,
@@ -286,7 +173,7 @@
         position: "relative",
       }}>
         <div style={{ maxWidth: 1280, margin: "0 auto" }}>
-          <SectionLabel num="06" label="Workflow & Terms" />
+          <SectionLabel num="05" label="Workflow & Terms" />
 
           <div style={{
             marginTop: 18,
@@ -486,7 +373,7 @@
         position: "relative",
       }}>
         <div style={{ maxWidth: 1280, margin: "0 auto" }}>
-          <SectionLabel num="08" label="บล็อก · บทความ" color={BB.lav} />
+          <SectionLabel num="07" label="บล็อก · บทความ" color={BB.lav} />
 
           <div style={{
             marginTop: 18,
@@ -566,7 +453,7 @@
         color: BB.ink,
       }}>
         <div style={{ maxWidth: 1280, margin: "0 auto" }}>
-          <SectionLabel num="09" label="ติดต่อเรา" color={BB.pink} />
+          <SectionLabel num="08" label="ติดต่อเรา" color={BB.pink} />
 
           <div style={{
             marginTop: 18,
@@ -734,5 +621,5 @@
     );
   }
 
-  Object.assign(window, { WhyUs, Process, Terms, Blog, Contact, CTA });
+  Object.assign(window, { Process, Terms, Blog, Contact, CTA });
 })();
