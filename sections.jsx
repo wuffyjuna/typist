@@ -102,12 +102,14 @@ function Nav() {
       position: "fixed", top: 0, left: "50%", transform: "translateX(-50%)",
       zIndex: 1000, width: 1440, maxWidth: "100%",
       display: "flex", alignItems: "center", justifyContent: "space-between",
-      padding: "20px 72px",
+      flexWrap: "wrap", rowGap: 12, columnGap: 16,
+      padding: "16px 24px",
       background: "rgba(239, 231, 216, 0.92)",
       backdropFilter: "blur(10px)",
       WebkitBackdropFilter: "blur(10px)",
       borderBottom: "1px solid " + BB.line,
       boxSizing: "border-box",
+      pointerEvents: "auto",
     }}>
       <a href="#top" style={{ display: "flex", alignItems: "center", gap: 12, textDecoration: "none", color: "inherit" }}>
         <div style={{
@@ -121,8 +123,11 @@ function Nav() {
           Bookbind <span style={{ opacity: 0.5, fontWeight: 400 }}>Studio</span>
         </div>
       </a>
-      <ul style={{ display: "flex", gap: 32, listStyle: "none", margin: 0, padding: 0,
-                   fontFamily: SANS, fontSize: 14.5, color: BB.ink2 }}>
+      <ul style={{
+        display: "flex", flexWrap: "wrap", gap: "10px 20px", listStyle: "none", margin: 0, padding: 0,
+        fontFamily: SANS, fontSize: 14.5, color: BB.ink2,
+        flex: "1 1 200px", justifyContent: "center", minWidth: 0,
+      }}>
         {NAV_LINKS.map((item) => (
           <li key={item.href}>
             <a href={item.href} style={linkSx}>{item.label}</a>
@@ -134,6 +139,7 @@ function Nav() {
         padding: "13px 22px", borderRadius: 12,
         fontFamily: SANS, fontSize: 14, fontWeight: 500, cursor: "pointer",
         textDecoration: "none", display: "inline-block",
+        flexShrink: 0, whiteSpace: "nowrap",
       }}>ส่งต้นฉบับ →</a>
     </nav>
   );
@@ -149,17 +155,19 @@ function Hero() {
       scrollMarginTop: 0,
     }}>
       <div style={{ position: "absolute", left: 0, top: 0, width: "55%", height: "100%",
-                    background: "linear-gradient(180deg, #F6F1E5 0%, #EFE7D8 100%)" }} />
+                    background: "linear-gradient(180deg, #F6F1E5 0%, #EFE7D8 100%)",
+                    pointerEvents: "none" }} />
       <div style={{ position: "absolute", right: 0, top: 0, width: "45%", height: "100%",
-                    background: "linear-gradient(160deg, #D8E4EE 0%, #C7D8E9 100%)" }} />
+                    background: "linear-gradient(160deg, #D8E4EE 0%, #C7D8E9 100%)",
+                    pointerEvents: "none" }} />
       <div style={{ position: "absolute", left: "52%", top: "50%",
                     transform: "translate(-50%, -50%)",
                     width: 540, height: 540, borderRadius: "50%",
                     background: "linear-gradient(135deg, #E89BA9, #B6D9C2 70%, #C9BFE0)",
-                    opacity: 0.65 }} />
+                    opacity: 0.65, pointerEvents: "none" }} />
 
       <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr",
-                    padding: "128px 72px 0", position: "relative", zIndex: 2 }}>
+                    padding: "128px 72px 0", position: "relative", zIndex: 2, pointerEvents: "auto" }}>
         <div style={{ paddingTop: 24 }}>
           <SectionLabel num="01" label="Typesetting · Cover · e-Book" />
 
@@ -287,6 +295,7 @@ function ServiceCard({ num, icon, title, sub, items, tag, tone, exampleHref = "#
       <div style={{
         position: "absolute", top: -40, right: -40, width: 140, height: 140,
         borderRadius: "50%", background: a.bg, opacity: 0.7,
+        pointerEvents: "none",
       }} />
       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", position: "relative" }}>
         <div style={{
@@ -436,6 +445,7 @@ function PortfolioCard({ item, idx }) {
           position: "absolute", left: 14, top: 14,
           fontFamily: MONO, fontSize: 10, letterSpacing: "0.2em",
           color: BB.mute, textTransform: "uppercase",
+          pointerEvents: "none",
         }}>#{String(idx + 1).padStart(2, "0")}</div>
 
         <div dangerouslySetInnerHTML={{
@@ -476,11 +486,13 @@ function Portfolio() {
         position: "absolute", right: -160, top: 80, width: 380, height: 380,
         borderRadius: "50%",
         background: "radial-gradient(closest-side, #E89BA933, transparent)",
+        pointerEvents: "none",
       }} />
       <div style={{
         position: "absolute", left: -120, bottom: 100, width: 320, height: 320,
         borderRadius: "50%",
         background: "radial-gradient(closest-side, #C9BFE044, transparent)",
+        pointerEvents: "none",
       }} />
 
       <div style={{
@@ -580,10 +592,12 @@ function PricingQueue() {
     }}>
       <div style={{ position: "absolute", left: -140, top: 60, width: 360, height: 360,
                     borderRadius: "50%",
-                    background: "radial-gradient(closest-side, #C7D8E955, transparent)" }} />
+                    background: "radial-gradient(closest-side, #C7D8E955, transparent)",
+                    pointerEvents: "none" }} />
       <div style={{ position: "absolute", right: -100, bottom: 100, width: 320, height: 320,
                     borderRadius: "50%",
-                    background: "radial-gradient(closest-side, #B6D9C266, transparent)" }} />
+                    background: "radial-gradient(closest-side, #B6D9C266, transparent)",
+                    pointerEvents: "none" }} />
 
       <div style={{ display: "grid", gridTemplateColumns: "1fr 1.1fr",
                     gap: 60, alignItems: "end", marginBottom: 56, position: "relative" }}>
@@ -825,7 +839,8 @@ function PricingQueue() {
           }}>
             <div style={{ position: "absolute", right: -40, top: -40, width: 140, height: 140,
                           borderRadius: "50%",
-                          background: "linear-gradient(135deg, " + BB.lav + "55, " + BB.pink + "55)" }} />
+                          background: "linear-gradient(135deg, " + BB.lav + "55, " + BB.pink + "55)",
+                          pointerEvents: "none" }} />
             <div style={{ position: "relative" }}>
               <div style={{ fontFamily: MONO, fontSize: 11, letterSpacing: "0.2em",
                             color: "rgba(255,255,255,0.55)", textTransform: "uppercase" }}>

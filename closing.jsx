@@ -29,6 +29,7 @@
           position: "absolute", right: -120, top: 60,
           width: 280, height: 280, borderRadius: "50%",
           background: "radial-gradient(closest-side, " + BB.blueSoft + "aa, transparent)",
+          pointerEvents: "none",
         }} />
 
         <div style={{ maxWidth: 1280, margin: "0 auto", position: "relative" }}>
@@ -264,6 +265,7 @@
                 position: "absolute", right: -60, top: -60,
                 width: 200, height: 200, borderRadius: "50%",
                 background: "radial-gradient(closest-side, " + BB.lav + "55, transparent 70%)",
+                pointerEvents: "none",
               }} />
               <div style={{
                 fontFamily: MONO, fontSize: 10.5, letterSpacing: "0.22em",
@@ -555,11 +557,13 @@
               position: "absolute", right: -120, top: -120,
               width: 360, height: 360, borderRadius: "50%",
               background: "radial-gradient(closest-side, " + BB.lav + "66, transparent 70%)",
+              pointerEvents: "none",
             }} />
             <div style={{
               position: "absolute", left: -60, bottom: -120,
               width: 280, height: 280, borderRadius: "50%",
               background: "radial-gradient(closest-side, " + BB.pink + "55, transparent 70%)",
+              pointerEvents: "none",
             }} />
 
             <div style={{ position: "relative", zIndex: 1 }}>
