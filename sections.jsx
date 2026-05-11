@@ -228,10 +228,6 @@ function Hero() {
                           background: "linear-gradient(90deg, transparent, #faf6ec 92%)" }}>
               <div style={{ textAlign: "center", marginBottom: 16 }}>
                 <div style={{
-                  fontFamily: MONO, fontSize: 10, letterSpacing: "0.16em",
-                  textTransform: "uppercase", color: BB.mute, marginBottom: 8,
-                }}>ขยายกระดาษ</div>
-                <div style={{
                   fontFamily: PLAYPEN, fontSize: 12.5, fontWeight: 500, color: "#9b8aa4",
                   fontStyle: "italic", marginBottom: 6,
                 }}>บทที่ 7</div>
