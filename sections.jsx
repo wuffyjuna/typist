@@ -24,11 +24,19 @@ const BB = {
 
 /* ─── Notion Config ─── */
 const NOTION_CONFIG = {
-  enabled:    true,        // เชื่อม Notion ผ่าน Vercel Edge Function
+  enabled:    true,
   proxy:      "/api/notion",
-  dateProp:   "วันที่",    // Date property (รองรับ date range)
-  statusProp: "สถานะ",     // Select property: "เปิดรับ" | "จองแล้ว" | "กำลังทำ"
+  startProp:  "วันที่เริ่ม",    // Date column (start)
+  endProp:    "วันที่สิ้นสุด",  // Date column (end)
+  statusProp: "สถานะ",          // Select: "เปิดรับ" | "จองแล้ว" | "กำลังทำ" | "เสร็จแล้ว"
 };
+
+/* Local date string helper — ป้องกัน timezone shift */
+function localDateStr(d) {
+  return d.getFullYear() + '-' +
+    String(d.getMonth() + 1).padStart(2, '0') + '-' +
+    String(d.getDate()).padStart(2, '0');
+}
 
 /* Demo data เมื่อยังไม่เชื่อม Notion */
 function _getDemoCalData() {
@@ -60,11 +68,6 @@ function BookingCalendar() {
   };
 
   const today    = new Date();
-  function localDateStr(d) {
-    return d.getFullYear() + '-' +
-      String(d.getMonth() + 1).padStart(2, '0') + '-' +
-      String(d.getDate()).padStart(2, '0');
-  }
   const todayStr = localDateStr(today);
 
   const [tab,     setTab]     = React.useState(0);   // 0 | 1 | 2
@@ -79,21 +82,30 @@ function BookingCalendar() {
     fetch(NOTION_CONFIG.proxy, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ filter: { property: NOTION_CONFIG.dateProp, date: { on_or_after: startDate } } }),
+      body: JSON.stringify({
+        filter: { property: NOTION_CONFIG.endProp, date: { on_or_after: startDate } },
+      }),
     })
     .then(function(r) { return r.json(); })
     .then(function(data) {
       const map = {};
       (data.results || []).forEach(function(page) {
-        const dp    = page.properties[NOTION_CONFIG.dateProp];
-        const sp    = page.properties[NOTION_CONFIG.statusProp];
-        const raw   = sp && sp.select && sp.select.name;
-        let status  = 'booked';
-        if (raw === 'เปิดรับ' || raw === 'Open')           status = 'open';
-        else if (raw === 'กำลังทำ' || raw === 'In Progress') status = 'inprogress';
-        if (!dp || !dp.date) return;
-        const start = new Date(dp.date.start + 'T12:00:00');
-        const end   = dp.date.end ? new Date(dp.date.end + 'T12:00:00') : new Date(start);
+        const startP = page.properties[NOTION_CONFIG.startProp];
+        const endP   = page.properties[NOTION_CONFIG.endProp];
+        const sp     = page.properties[NOTION_CONFIG.statusProp];
+        const raw    = sp && sp.select && sp.select.name;
+
+        let status = 'booked';
+        if (raw === 'เปิดรับ')   status = 'open';
+        else if (raw === 'กำลังทำ') status = 'inprogress';
+        else if (raw === 'เสร็จแล้ว') return; // ข้ามงานที่เสร็จแล้ว
+
+        const startStr = startP && startP.date && startP.date.start;
+        const endStr   = endP   && endP.date   && endP.date.start;
+        if (!startStr && !endStr) return;
+
+        const start = new Date((startStr || endStr) + 'T12:00:00');
+        const end   = new Date((endStr   || startStr) + 'T12:00:00');
         for (var d = new Date(start); d <= end; d.setDate(d.getDate() + 1)) {
           map[localDateStr(d)] = status;
         }
