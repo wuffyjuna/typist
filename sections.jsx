@@ -836,8 +836,9 @@ function PricingQueue() {
   const [rush, setRush] = React.useState(false);
 
   const rates = { print: 12, ebook: 8, cover: 0 };
+  const coverAddon = svc === "ebook" ? 400 : 800;
   let base = svc === "cover" ? 800 : pages * rates[svc];
-  if (combo && svc !== "cover") base = pages * rates[svc] + 800;
+  if (combo && svc !== "cover") base = pages * rates[svc] + coverAddon;
   const footExtra  = Math.max(0, foot - 10) * 2;
   const tableExtra = Math.max(0, tables - 2) * 20;
   const mapExtra   = maps * 50;
@@ -938,7 +939,7 @@ function PricingQueue() {
             <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 10 }}>
               {[
                 ["print", "📚", "จัดเล่มพิมพ์", "12฿/หน้า"],
-                ["ebook", "📱", "e-Book",      "8฿/หน้า"],
+                ["ebook", "📱", "e-Book / ePub", "8฿/หน้า"],
                 ["cover", "📖", "ประกอบปก",    "800฿/เล่ม"],
               ].map(([v, ic, label, rate]) => {
                 const active = svc === v;
@@ -975,7 +976,7 @@ function PricingQueue() {
               <span style={{ display: "flex", alignItems: "center", gap: 12, fontSize: 14, color: BB.ink }}>
                 <input type="checkbox" checked={combo} onChange={e => setCombo(e.target.checked)}
                        style={{ accentColor: BB.lav, width: 16, height: 16 }} />
-                เพิ่มประกอบปก (Combo)
+                {svc === "ebook" ? "เพิ่มประกอบปก อีบุ๊ค (Combo) +400฿" : "เพิ่มประกอบปก (Combo) +800฿"}
               </span>
               <span style={{ fontFamily: MONO, fontSize: 11, letterSpacing: "0.1em",
                              color: BB.lav, textTransform: "uppercase" }}>
