@@ -37,7 +37,7 @@ function _getDemoCalData() {
   function setRange(offsetStart, offsetEnd, status) {
     for (let d = offsetStart; d <= offsetEnd; d++) {
       const dt = new Date(today.getFullYear(), today.getMonth(), today.getDate() + d);
-      map[dt.toISOString().split('T')[0]] = status;
+      map[localDateStr(dt)] = status;
     }
   }
   setRange(-6, 6,   'inprogress');
@@ -60,7 +60,12 @@ function BookingCalendar() {
   };
 
   const today    = new Date();
-  const todayStr = today.toISOString().split('T')[0];
+  function localDateStr(d) {
+    return d.getFullYear() + '-' +
+      String(d.getMonth() + 1).padStart(2, '0') + '-' +
+      String(d.getDate()).padStart(2, '0');
+  }
+  const todayStr = localDateStr(today);
 
   const [tab,     setTab]     = React.useState(0);   // 0 | 1 | 2
   const [calData, setCalData] = React.useState(null);
@@ -70,7 +75,7 @@ function BookingCalendar() {
   React.useEffect(function() {
     if (isDemo) { setCalData(_getDemoCalData()); return; }
     setLoading(true);
-    const startDate = new Date(today.getFullYear(), today.getMonth(), 1).toISOString().split('T')[0];
+    const startDate = localDateStr(new Date(today.getFullYear(), today.getMonth(), 1));
     fetch(NOTION_CONFIG.proxy, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -90,7 +95,7 @@ function BookingCalendar() {
         const start = new Date(dp.date.start + 'T12:00:00');
         const end   = dp.date.end ? new Date(dp.date.end + 'T12:00:00') : new Date(start);
         for (var d = new Date(start); d <= end; d.setDate(d.getDate() + 1)) {
-          map[d.toISOString().split('T')[0]] = status;
+          map[localDateStr(d)] = status;
         }
       });
       setCalData(map);
@@ -108,7 +113,7 @@ function BookingCalendar() {
 
   function getStatus(day) {
     const dt  = new Date(viewYear, viewMonth, day);
-    const key = dt.toISOString().split('T')[0];
+    const key = localDateStr(dt);
     if (dt < new Date(today.getFullYear(), today.getMonth(), today.getDate())) return 'past';
     return (calData || {})[key] || null;
   }
@@ -178,7 +183,7 @@ function BookingCalendar() {
           {Array.from({ length: daysInMonth }).map(function(_, i) {
             const day    = i + 1;
             const status = getStatus(day);
-            const key    = new Date(viewYear, viewMonth, day).toISOString().split('T')[0];
+            const key    = localDateStr(new Date(viewYear, viewMonth, day));
             const isToday = key === todayStr;
             const sx     = status && STATUS_SX[status];
             const isOpen = status === 'open';
