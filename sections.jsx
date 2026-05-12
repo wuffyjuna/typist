@@ -22,6 +22,255 @@ const BB = {
   blueSoft: "#C7D8E9",
 };
 
+/* ─── Notion Config ─── */
+const NOTION_CONFIG = {
+  enabled:    false,       // ตั้งเป็น true หลัง deploy บน Vercel และใส่ env vars แล้ว
+  proxy:      "/api/notion",
+  dateProp:   "วันที่",    // Date property (รองรับ date range)
+  statusProp: "สถานะ",     // Select property: "เปิดรับ" | "จองแล้ว" | "กำลังทำ"
+};
+
+/* Demo data เมื่อยังไม่เชื่อม Notion */
+function _getDemoCalData() {
+  const today = new Date();
+  const map = {};
+  function setRange(offsetStart, offsetEnd, status) {
+    for (let d = offsetStart; d <= offsetEnd; d++) {
+      const dt = new Date(today.getFullYear(), today.getMonth(), today.getDate() + d);
+      map[dt.toISOString().split('T')[0]] = status;
+    }
+  }
+  setRange(-6, 6,   'inprogress');
+  setRange(7,  20,  'booked');
+  setRange(28, 41,  'open');
+  setRange(49, 75,  'open');
+  return map;
+}
+
+/* ─────────────────────────── BOOKING CALENDAR ─────────────────────────── */
+
+function BookingCalendar() {
+  const MONTHS_TH = ['มกราคม','กุมภาพันธ์','มีนาคม','เมษายน','พฤษภาคม','มิถุนายน',
+                     'กรกฎาคม','สิงหาคม','กันยายน','ตุลาคม','พฤศจิกายน','ธันวาคม'];
+  const DAYS_TH   = ['อา','จ','อ','พ','พฤ','ศ','ส'];
+  const STATUS_SX = {
+    open:       { bg: '#DFF0E5', border: '#A8D5BA', dot: '#3f8a5d', label: 'เปิดรับ · คลิกเพื่อจอง' },
+    booked:     { bg: '#F2EDE4', border: '#C9BFB0', dot: null,      label: 'จองแล้ว' },
+    inprogress: { bg: '#E0EDF6', border: '#7BA3C7', dot: null,      label: 'กำลังทำ' },
+  };
+
+  const today    = new Date();
+  const todayStr = today.toISOString().split('T')[0];
+
+  const [tab,     setTab]     = React.useState(0);   // 0 | 1 | 2
+  const [calData, setCalData] = React.useState(null);
+  const [loading, setLoading] = React.useState(false);
+  const isDemo = !NOTION_CONFIG.enabled;
+
+  React.useEffect(function() {
+    if (isDemo) { setCalData(_getDemoCalData()); return; }
+    setLoading(true);
+    const startDate = new Date(today.getFullYear(), today.getMonth(), 1).toISOString().split('T')[0];
+    fetch(NOTION_CONFIG.proxy, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ filter: { property: NOTION_CONFIG.dateProp, date: { on_or_after: startDate } } }),
+    })
+    .then(function(r) { return r.json(); })
+    .then(function(data) {
+      const map = {};
+      (data.results || []).forEach(function(page) {
+        const dp    = page.properties[NOTION_CONFIG.dateProp];
+        const sp    = page.properties[NOTION_CONFIG.statusProp];
+        const raw   = sp && sp.select && sp.select.name;
+        let status  = 'booked';
+        if (raw === 'เปิดรับ' || raw === 'Open')           status = 'open';
+        else if (raw === 'กำลังทำ' || raw === 'In Progress') status = 'inprogress';
+        if (!dp || !dp.date) return;
+        const start = new Date(dp.date.start + 'T12:00:00');
+        const end   = dp.date.end ? new Date(dp.date.end + 'T12:00:00') : new Date(start);
+        for (var d = new Date(start); d <= end; d.setDate(d.getDate() + 1)) {
+          map[d.toISOString().split('T')[0]] = status;
+        }
+      });
+      setCalData(map);
+    })
+    .catch(function() { setCalData(_getDemoCalData()); })
+    .finally(function() { setLoading(false); });
+  }, []);
+
+  /* Compute month to display */
+  const viewDate  = new Date(today.getFullYear(), today.getMonth() + tab, 1);
+  const viewYear  = viewDate.getFullYear();
+  const viewMonth = viewDate.getMonth();
+  const firstDay  = viewDate.getDay();                                       // 0=Sun
+  const daysInMonth = new Date(viewYear, viewMonth + 1, 0).getDate();
+
+  function getStatus(day) {
+    const dt  = new Date(viewYear, viewMonth, day);
+    const key = dt.toISOString().split('T')[0];
+    if (dt < new Date(today.getFullYear(), today.getMonth(), today.getDate())) return 'past';
+    return (calData || {})[key] || null;
+  }
+
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+      {/* Calendar card */}
+      <div style={{ background: '#fff', borderRadius: 24, padding: 28,
+                    boxShadow: '0 6px 30px -14px rgba(60,40,40,0.14)' }}>
+
+        {/* Header row */}
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 18 }}>
+          <h3 style={{ fontFamily: "'Playpen Sans Thai'," + SANS,
+                       fontSize: 20, fontWeight: 600, color: BB.ink, margin: 0 }}>
+            ปฏิทินจองคิว
+          </h3>
+          <span style={{ display: 'inline-flex', alignItems: 'center', gap: 7,
+                         fontFamily: MONO, fontSize: 10.5, color: loading ? BB.mute : '#3f8a5d',
+                         letterSpacing: '0.16em', textTransform: 'uppercase' }}>
+            <span style={{ width: 7, height: 7, borderRadius: '50%',
+                           background: loading ? BB.mute : '#3f8a5d',
+                           animation: loading ? 'none' : 'pulse 2s infinite' }} />
+            {loading ? 'Loading…' : isDemo ? 'Demo' : 'Live'}
+          </span>
+        </div>
+
+        {/* Month tabs */}
+        <div style={{ display: 'flex', gap: 8, marginBottom: 20 }}>
+          {[0, 1, 2].map(function(i) {
+            const d   = new Date(today.getFullYear(), today.getMonth() + i, 1);
+            const lbl = MONTHS_TH[d.getMonth()].slice(0, 3) + '\u00a0' + String(d.getFullYear() + 543).slice(2);
+            const act = tab === i;
+            return (
+              <button key={i} onClick={function() { setTab(i); }} style={{
+                flex: 1, padding: '9px 6px', borderRadius: 10,
+                background: act ? BB.ink : BB.paper,
+                color: act ? '#fff' : BB.ink2,
+                border: '1px solid ' + (act ? BB.ink : BB.line),
+                fontFamily: MONO, fontSize: 11, cursor: 'pointer',
+                letterSpacing: '0.06em', fontWeight: act ? 600 : 400,
+                transition: 'all 0.15s',
+              }}>{lbl}</button>
+            );
+          })}
+        </div>
+
+        {/* Month title */}
+        <div style={{ textAlign: 'center', marginBottom: 14,
+                      fontFamily: "'Playpen Sans Thai'," + SANS,
+                      fontSize: 15, fontWeight: 600, color: BB.ink }}>
+          {MONTHS_TH[viewMonth]}&nbsp;{viewYear + 543}
+        </div>
+
+        {/* Day-of-week headers */}
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7,1fr)', gap: 3, marginBottom: 3 }}>
+          {DAYS_TH.map(function(d) {
+            return (
+              <div key={d} style={{ textAlign: 'center', fontFamily: MONO, fontSize: 10,
+                                    color: BB.mute, paddingBottom: 4 }}>{d}</div>
+            );
+          })}
+        </div>
+
+        {/* Day grid */}
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7,1fr)', gap: 3 }}>
+          {Array.from({ length: firstDay }).map(function(_, i) { return <div key={'e'+i} />; })}
+          {Array.from({ length: daysInMonth }).map(function(_, i) {
+            const day    = i + 1;
+            const status = getStatus(day);
+            const key    = new Date(viewYear, viewMonth, day).toISOString().split('T')[0];
+            const isToday = key === todayStr;
+            const sx     = status && STATUS_SX[status];
+            const isOpen = status === 'open';
+            return (
+              <div key={day}
+                title={sx ? sx.label : ''}
+                onClick={isOpen ? function() {
+                  const el = document.getElementById('contact');
+                  if (el) el.scrollIntoView({ behavior: 'smooth' });
+                } : undefined}
+                style={{
+                  aspectRatio: '1', borderRadius: 8, position: 'relative',
+                  display: 'flex', flexDirection: 'column',
+                  alignItems: 'center', justifyContent: 'center',
+                  background: sx ? sx.bg : (status === 'past' ? 'transparent' : '#fff'),
+                  border: '1px solid ' + (isToday ? BB.lav : (sx ? sx.border : BB.line)),
+                  boxShadow: isToday ? '0 0 0 2.5px ' + BB.lav + '55' : 'none',
+                  cursor: isOpen ? 'pointer' : 'default',
+                  opacity: status === 'past' ? 0.3 : 1,
+                  transition: 'transform 0.1s, box-shadow 0.1s',
+                }}
+                onMouseEnter={isOpen ? function(e) {
+                  e.currentTarget.style.transform = 'scale(1.08)';
+                  e.currentTarget.style.boxShadow = '0 4px 12px -4px #A8D5BA';
+                } : undefined}
+                onMouseLeave={isOpen ? function(e) {
+                  e.currentTarget.style.transform = '';
+                  e.currentTarget.style.boxShadow = isToday ? '0 0 0 2.5px ' + BB.lav + '55' : 'none';
+                } : undefined}
+              >
+                <span style={{ fontSize: 12, fontWeight: isToday ? 700 : 400,
+                               color: sx ? (sx.dot || BB.ink2) : BB.mute, fontFamily: MONO }}>
+                  {day}
+                </span>
+                {isOpen && (
+                  <span style={{ width: 4, height: 4, borderRadius: '50%',
+                                 background: '#3f8a5d', marginTop: 1 }} />
+                )}
+              </div>
+            );
+          })}
+        </div>
+
+        {/* Legend */}
+        <div style={{ marginTop: 16, paddingTop: 12, borderTop: '1px solid ' + BB.line,
+                      display: 'flex', flexWrap: 'wrap', gap: '6px 16px', alignItems: 'center' }}>
+          {Object.entries(STATUS_SX).map(function(entry) {
+            const k = entry[0]; const s = entry[1];
+            return (
+              <div key={k} style={{ display: 'flex', alignItems: 'center', gap: 5,
+                                    fontSize: 11, color: BB.ink2 }}>
+                <span style={{ width: 11, height: 11, borderRadius: 3, display: 'inline-block',
+                               background: s.bg, border: '1px solid ' + s.border }} />
+                {k === 'open' ? 'เปิดรับ' : k === 'booked' ? 'จองแล้ว' : 'กำลังทำ'}
+              </div>
+            );
+          })}
+          <div style={{ display: 'flex', alignItems: 'center', gap: 5, fontSize: 11, color: BB.ink2 }}>
+            <span style={{ width: 11, height: 11, borderRadius: 3, display: 'inline-block',
+                           background: '#fff', border: '2px solid ' + BB.lav }} />
+            วันนี้
+          </div>
+        </div>
+
+        {/* Demo notice */}
+        {isDemo && (
+          <div style={{ marginTop: 12, padding: '10px 14px', borderRadius: 10,
+                        background: BB.paper, border: '1px dashed ' + BB.line,
+                        fontSize: 11.5, color: BB.mute, lineHeight: 1.55 }}>
+            💡 ข้อมูลตัวอย่าง — เชื่อม Notion โดยกรอก <code style={{ fontFamily: MONO }}>NOTION_CONFIG</code> ใน sections.jsx
+          </div>
+        )}
+      </div>
+
+      {/* Stat mini-card */}
+      <div style={{ background: 'linear-gradient(135deg,' + BB.blueSoft + ' 0%,#B6D9C2 100%)',
+                    borderRadius: 20, padding: 26,
+                    display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20 }}>
+        {[['7–10','วัน·ส่งมอบ'],['50%','มัดจำ'],['24 ชม.','ตอบกลับ'],['2 รอบ','แก้ไขฟรี']].map(function(item, i) {
+          return (
+            <div key={i}>
+              <div style={{ fontFamily: "'Playpen Sans Thai'," + SANS,
+                            fontSize: 26, fontWeight: 600, color: BB.ink, lineHeight: 1 }}>{item[0]}</div>
+              <div style={{ fontSize: 12.5, color: BB.ink2, marginTop: 6 }}>{item[1]}</div>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
 /* ─────────────────────────── Reusable atoms ─────────────────────────── */
 
 function SectionLabel({ num, label, color = BB.ink }) {
@@ -875,123 +1124,9 @@ function PricingQueue() {
           </div>
         </div>
 
-        {/* Queue panel */}
-        <div id="queue" style={{ display: "flex", flexDirection: "column", gap: 16, scrollMarginTop: 88 }}>
-          <div style={{
-            background: "#fff", borderRadius: 24, padding: 32,
-            boxShadow: "0 6px 30px -14px rgba(60,40,40,0.14)",
-          }}>
-            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-              <h3 style={{
-                fontFamily: "'Playpen Sans Thai', " + SANS,
-                fontSize: 22, fontWeight: 600, color: BB.ink, margin: 0,
-              }}>คิวปัจจุบัน</h3>
-              <span style={{
-                display: "inline-flex", alignItems: "center", gap: 8,
-                fontFamily: MONO, fontSize: 11, color: "#3f8a5d",
-                letterSpacing: "0.16em", textTransform: "uppercase",
-              }}>
-                <span style={{ width: 7, height: 7, borderRadius: "50%",
-                               background: "#3f8a5d", animation: "pulse 2s infinite" }} />
-                Open
-              </span>
-            </div>
-
-            {/* Active slot */}
-            <div style={{
-              marginTop: 22, padding: 18, borderRadius: 14,
-              background: BB.cream, border: "1px solid " + BB.line,
-            }}>
-              <div style={{ display: "flex", justifyContent: "space-between",
-                            alignItems: "baseline" }}>
-                <div style={{ fontSize: 13, color: BB.mute }}>กำลังทำอยู่</div>
-                <div style={{ fontFamily: MONO, fontSize: 11, color: BB.ink,
-                              letterSpacing: "0.1em" }}>60%</div>
-              </div>
-              <div style={{ marginTop: 6, fontFamily: SERIF, fontSize: 18,
-                            color: BB.ink, fontStyle: "italic" }}>
-                โปรเจค #124
-              </div>
-              <div style={{ marginTop: 4, fontSize: 13, color: BB.ink2 }}>
-                15 – 22 พฤษภาคม 2026
-              </div>
-              <div style={{
-                marginTop: 12, height: 6, background: "#fff", borderRadius: 3, overflow: "hidden",
-              }}>
-                <div style={{
-                  width: "60%", height: "100%",
-                  background: "linear-gradient(90deg, " + BB.lav + ", " + BB.pink + ")",
-                  borderRadius: 3,
-                }} />
-              </div>
-            </div>
-
-            {/* Booked + open slots */}
-            <div style={{ marginTop: 18, display: "flex", flexDirection: "column", gap: 10 }}>
-              {[
-                { date: "23 – 30 พ.ค.", id: "#125", status: "booked" },
-                { date: "31 พ.ค. – 7 มิ.ย.", id: "#126", status: "booked" },
-                { date: "8 – 15 มิ.ย.", id: "เปิดรับ", status: "open" },
-                { date: "16 – 23 มิ.ย.", id: "เปิดรับ", status: "open" },
-              ].map((s, i) => (
-                <div key={i} style={{
-                  display: "flex", alignItems: "center", justifyContent: "space-between",
-                  padding: "13px 16px", borderRadius: 12,
-                  background: s.status === "open" ? "#DFF0E5" : BB.paper,
-                  border: "1px solid " + (s.status === "open" ? "#A8D5BA" : BB.line),
-                }}>
-                  <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-                    <span style={{
-                      width: 8, height: 8, borderRadius: "50%",
-                      background: s.status === "open" ? "#3f8a5d" : "#c9bfae",
-                    }} />
-                    <span style={{ fontSize: 14, color: BB.ink }}>{s.date}</span>
-                  </div>
-                  {s.status === "open" ? (
-                    <a href="#contact" style={{
-                      background: BB.ink, color: "#fff", border: "none",
-                      padding: "6px 14px", borderRadius: 999,
-                      fontFamily: SANS, fontSize: 12.5, cursor: "pointer",
-                      textDecoration: "none", display: "inline-block",
-                    }}>จองช่วงนี้ →</a>
-                  ) : (
-                    <span style={{ fontFamily: MONO, fontSize: 11, color: BB.mute,
-                                   letterSpacing: "0.1em" }}>{s.id}</span>
-                  )}
-                </div>
-              ))}
-            </div>
-
-            <div style={{
-              marginTop: 18, padding: "12px 14px", borderRadius: 10,
-              background: BB.paper, border: "1px dashed " + BB.line,
-              fontSize: 12.5, color: BB.mute, lineHeight: 1.5,
-            }}>
-              💡 คิวหลัง 1 เดือนเปิดจองทันทีเมื่อคิวด้านบนเริ่มทำงาน
-            </div>
-          </div>
-
-          {/* Mini stat card */}
-          <div style={{
-            background: "linear-gradient(135deg, " + BB.blueSoft + " 0%, #B6D9C2 100%)",
-            borderRadius: 20, padding: 26,
-            display: "grid", gridTemplateColumns: "1fr 1fr", gap: 20,
-          }}>
-            {[
-              ["7–10", "วัน·ส่งมอบ"],
-              ["50%", "มัดจำ"],
-              ["24 ชม.", "ตอบกลับ"],
-              ["2 รอบ", "แก้ไขฟรี"],
-            ].map(([n, l], i) => (
-              <div key={i}>
-                <div style={{
-                  fontFamily: "'Playpen Sans Thai', " + SANS,
-                  fontSize: 26, fontWeight: 600, color: BB.ink, lineHeight: 1,
-                }}>{n}</div>
-                <div style={{ fontSize: 12.5, color: BB.ink2, marginTop: 6 }}>{l}</div>
-              </div>
-            ))}
-          </div>
+        {/* Calendar panel */}
+        <div id="queue" style={{ scrollMarginTop: 88 }}>
+          <BookingCalendar />
         </div>
       </div>
 
