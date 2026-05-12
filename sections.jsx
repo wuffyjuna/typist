@@ -24,7 +24,7 @@ const BB = {
 
 /* ─── Notion Config ─── */
 const NOTION_CONFIG = {
-  enabled:    false,       // ตั้งเป็น true หลัง deploy บน Vercel และใส่ env vars แล้ว
+  enabled:    true,        // เชื่อม Notion ผ่าน Vercel Edge Function
   proxy:      "/api/notion",
   dateProp:   "วันที่",    // Date property (รองรับ date range)
   statusProp: "สถานะ",     // Select property: "เปิดรับ" | "จองแล้ว" | "กำลังทำ"
