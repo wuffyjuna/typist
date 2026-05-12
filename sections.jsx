@@ -83,7 +83,7 @@ function BookingCalendar() {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        filter: { property: NOTION_CONFIG.endProp, date: { on_or_after: startDate } },
+        filter: { property: NOTION_CONFIG.startProp, date: { on_or_after: startDate } },
       }),
     })
     .then(function(r) { return r.json(); })
