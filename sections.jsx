@@ -1,25 +1,26 @@
 /* global React */
-/* Bookbind Studio — One-page site, Soft Geometric direction (Variant B)
+/* JUNATHETYPE — One-page site, Soft Geometric direction (Variant B)
    Sections are exported on window. */
 
-const SERIF = "'Fraunces', 'Cormorant Garamond', serif";
-const SANS  = "'DM Sans', 'IBM Plex Sans Thai', system-ui, sans-serif";
-const MONO  = "'JetBrains Mono', ui-monospace, monospace";
-const PLAYPEN = "'Playpen Sans Thai', 'Playpen Sans', " + SANS;
+const SERIF   = "'Anuphan', sans-serif";
+const SANS    = "'Anuphan', sans-serif";
+const MONO    = "'JetBrains Mono', ui-monospace, monospace";
+const PLAYPEN = "'Anuphan', sans-serif";
+const HEAD    = "'Anuphan', sans-serif";   // heading — ใช้ fontWeight: 700
 
 const BB = {
-  cream:  "#F5F1E8",
-  cream2: "#EFE7D8",
-  paper:  "#FAF6EC",
-  ink:    "#2d2a26",
-  ink2:   "#4a463f",
-  mute:   "#6B6B6B",
-  line:   "#E8DFD0",
-  lav:    "#9B8AC4",
-  pink:   "#E89BA9",
-  mint:   "#A8D5BA",
-  blue:   "#7BA3C7",
-  blueSoft: "#C7D8E9",
+  cream:    "#1c1c1c",   // card background
+  cream2:   "#0d0d0d",   // page background
+  paper:    "#141414",   // section background
+  ink:      "#ffffff",   // text หลัก
+  ink2:     "#706c68",   // text รอง (เข้มขึ้น = สะอาดขึ้น)
+  mute:     "#484440",   // text มืด
+  line:     "#242424",   // border
+  lav:      "#a78bfa",   // accent หลัก — soft purple
+  pink:     "#f472b6",   // accent รอง — sparingly
+  mint:     "#a78bfa",   // unified → lav
+  blue:     "#a78bfa",   // unified → lav
+  blueSoft: "#1a1630",   // dark lav bg
 };
 
 /* ─── Notion Config ─── */
@@ -36,6 +37,38 @@ function localDateStr(d) {
   return d.getFullYear() + '-' +
     String(d.getMonth() + 1).padStart(2, '0') + '-' +
     String(d.getDate()).padStart(2, '0');
+}
+
+/* ─────────────────────────── Decorative atoms ─────────────────────────── */
+
+/* 4-pointed sparkle star — ของตกแต่งหลัก */
+function Sparkle({ size = 20, color = "currentColor", style: sx = {} }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 20 20" fill={color}
+         style={{ display: 'block', flexShrink: 0, ...sx }}>
+      <path d="M10 0 L11.96 8.04 L20 10 L11.96 11.96 L10 20 L8.04 11.96 L0 10 L8.04 8.04 Z" />
+    </svg>
+  );
+}
+
+/* Rotating circular badge */
+function RotatingBadge({ text = "JUNATHETYPE · TYPESET · PRESS · EBOOK ·", size = 100, color = BB.lav }) {
+  const cx = size / 2, cy = size / 2, r = size * 0.38;
+  return (
+    <div style={{ width: size, height: size, animation: 'rotateBadge 20s linear infinite' }}>
+      <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`}>
+        <defs>
+          <path id="badgeCircle"
+            d={`M ${cx},${cy} m -${r},0 a ${r},${r} 0 1,1 ${r*2},0 a ${r},${r} 0 1,1 -${r*2},0`} />
+        </defs>
+        <text fontSize="8" fill={color} fontFamily="'JetBrains Mono', monospace" letterSpacing="2.8">
+          <textPath href="#badgeCircle" startOffset="0%">{text}</textPath>
+        </text>
+        <line x1={cx} y1={cy - 9} x2={cx} y2={cy + 9} stroke={color} strokeWidth="1.2" opacity="0.85" />
+        <line x1={cx - 9} y1={cy} x2={cx + 9} y2={cy} stroke={color} strokeWidth="1.2" opacity="0.85" />
+      </svg>
+    </div>
+  );
 }
 
 /* Demo data เมื่อยังไม่เชื่อม Notion */
@@ -62,9 +95,9 @@ function BookingCalendar() {
                      'กรกฎาคม','สิงหาคม','กันยายน','ตุลาคม','พฤศจิกายน','ธันวาคม'];
   const DAYS_TH   = ['อา','จ','อ','พ','พฤ','ศ','ส'];
   const STATUS_SX = {
-    open:       { bg: '#DFF0E5', border: '#A8D5BA', dot: '#3f8a5d', label: 'เปิดรับ · คลิกเพื่อจอง' },
-    booked:     { bg: '#F2EDE4', border: '#C9BFB0', dot: null,      label: 'จองแล้ว' },
-    inprogress: { bg: '#E0EDF6', border: '#7BA3C7', dot: null,      label: 'กำลังทำ' },
+    open:       { bg: '#162b1e', border: '#2a5c3e', dot: '#4ade80', label: 'เปิดรับ · คลิกเพื่อจอง' },
+    booked:     { bg: '#221e18', border: '#3d3428', dot: null,      label: 'จองแล้ว' },
+    inprogress: { bg: '#162233', border: '#2a4060', dot: null,      label: 'กำลังทำ' },
   };
 
   const today    = new Date();
@@ -133,12 +166,12 @@ function BookingCalendar() {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
       {/* Calendar card */}
-      <div style={{ background: '#fff', borderRadius: 24, padding: 28,
+      <div style={{ background: '#1c1c1c', borderRadius: 24, padding: 28,
                     boxShadow: '0 6px 30px -14px rgba(60,40,40,0.14)' }}>
 
         {/* Header row */}
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 18 }}>
-          <h3 style={{ fontFamily: "'Playpen Sans Thai'," + SANS,
+          <h3 style={{ fontFamily: HEAD,
                        fontSize: 20, fontWeight: 600, color: BB.ink, margin: 0 }}>
             ปฏิทินจองคิว
           </h3>
@@ -174,7 +207,7 @@ function BookingCalendar() {
 
         {/* Month title */}
         <div style={{ textAlign: 'center', marginBottom: 14,
-                      fontFamily: "'Playpen Sans Thai'," + SANS,
+                      fontFamily: HEAD,
                       fontSize: 15, fontWeight: 600, color: BB.ink }}>
           {MONTHS_TH[viewMonth]}&nbsp;{viewYear + 543}
         </div>
@@ -210,7 +243,7 @@ function BookingCalendar() {
                   aspectRatio: '1', borderRadius: 8, position: 'relative',
                   display: 'flex', flexDirection: 'column',
                   alignItems: 'center', justifyContent: 'center',
-                  background: sx ? sx.bg : (status === 'past' ? 'transparent' : '#fff'),
+                  background: sx ? sx.bg : (status === 'past' ? 'transparent' : '#1c1c1c'),
                   border: '1px solid ' + (isToday ? BB.lav : (sx ? sx.border : BB.line)),
                   boxShadow: isToday ? '0 0 0 2.5px ' + BB.lav + '55' : 'none',
                   cursor: isOpen ? 'pointer' : 'default',
@@ -219,7 +252,7 @@ function BookingCalendar() {
                 }}
                 onMouseEnter={isOpen ? function(e) {
                   e.currentTarget.style.transform = 'scale(1.08)';
-                  e.currentTarget.style.boxShadow = '0 4px 12px -4px #A8D5BA';
+                  e.currentTarget.style.boxShadow = '0 4px 12px -4px #2a5c3e';
                 } : undefined}
                 onMouseLeave={isOpen ? function(e) {
                   e.currentTarget.style.transform = '';
@@ -232,7 +265,7 @@ function BookingCalendar() {
                 </span>
                 {isOpen && (
                   <span style={{ width: 4, height: 4, borderRadius: '50%',
-                                 background: '#3f8a5d', marginTop: 1 }} />
+                                 background: '#4ade80', marginTop: 1 }} />
                 )}
               </div>
             );
@@ -255,7 +288,7 @@ function BookingCalendar() {
           })}
           <div style={{ display: 'flex', alignItems: 'center', gap: 5, fontSize: 11, color: BB.ink2 }}>
             <span style={{ width: 11, height: 11, borderRadius: 3, display: 'inline-block',
-                           background: '#fff', border: '2px solid ' + BB.lav }} />
+                           background: '#1c1c1c', border: '2px solid ' + BB.lav }} />
             วันนี้
           </div>
         </div>
@@ -271,13 +304,13 @@ function BookingCalendar() {
       </div>
 
       {/* Stat mini-card */}
-      <div style={{ background: 'linear-gradient(135deg,' + BB.blueSoft + ' 0%,#B6D9C2 100%)',
+      <div style={{ background: 'linear-gradient(135deg,' + BB.blueSoft + ' 0%,#1a3025 100%)',
                     borderRadius: 20, padding: 26,
                     display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20 }}>
         {[['7–10','วัน·ส่งมอบ'],['50%','มัดจำ'],['24 ชม.','ตอบกลับ'],['2 รอบ','แก้ไขฟรี']].map(function(item, i) {
           return (
             <div key={i}>
-              <div style={{ fontFamily: "'Playpen Sans Thai'," + SANS,
+              <div style={{ fontFamily: HEAD,
                             fontSize: 26, fontWeight: 600, color: BB.ink, lineHeight: 1 }}>{item[0]}</div>
               <div style={{ fontSize: 12.5, color: BB.ink2, marginTop: 6 }}>{item[1]}</div>
             </div>
@@ -290,16 +323,17 @@ function BookingCalendar() {
 
 /* ─────────────────────────── Reusable atoms ─────────────────────────── */
 
-function SectionLabel({ num, label, color = BB.ink }) {
+function SectionLabel({ num, label, color = BB.ink2 }) {
   return (
     <div style={{
-      display: "inline-flex", alignItems: "center", gap: 14,
-      fontFamily: MONO, fontSize: 11.5,
-      letterSpacing: "0.22em", textTransform: "uppercase",
+      display: "inline-flex", alignItems: "center", gap: 10,
+      fontFamily: MONO, fontSize: 11,
+      letterSpacing: "0.2em", textTransform: "uppercase",
       color,
     }}>
-      <span style={{ fontVariantNumeric: "tabular-nums", opacity: 0.6 }}>{num}</span>
-      <span style={{ width: 28, height: 1, background: color, opacity: 0.4 }} />
+      <Sparkle size={10} color={color} style={{ opacity: 0.8 }} />
+      <span style={{ fontVariantNumeric: "tabular-nums", opacity: 0.55 }}>{num}</span>
+      <span style={{ width: 22, height: 1, background: color, opacity: 0.35 }} />
       {label}
     </div>
   );
@@ -342,7 +376,7 @@ function PlaceholderBookCover({ w, h, label, sub, tone = "lavender", tilt = 0, s
           <div style={{
             marginTop: 8, fontFamily: MONO, fontSize: 8, letterSpacing: "0.2em",
             color: c.ink, opacity: 0.5, textTransform: "uppercase",
-          }}>Bookbind Studio</div>
+          }}>JUNATHETYPE</div>
         </div>
       </div>
     </div>
@@ -371,7 +405,7 @@ function Nav() {
       display: "flex", alignItems: "center", justifyContent: "space-between",
       flexWrap: "wrap", rowGap: 12, columnGap: 16,
       padding: "16px 24px",
-      background: "rgba(239, 231, 216, 0.92)",
+      background: "rgba(13, 13, 13, 0.92)",
       backdropFilter: "blur(10px)",
       WebkitBackdropFilter: "blur(10px)",
       borderBottom: "1px solid " + BB.line,
@@ -381,13 +415,13 @@ function Nav() {
       <a href="#top" style={{ display: "flex", alignItems: "center", gap: 12, textDecoration: "none", color: "inherit" }}>
         <div style={{
           width: 38, height: 38, borderRadius: 11,
-          background: BB.ink, color: "#fff",
+          background: BB.ink, color: "#0d0d0d",
           display: "grid", placeItems: "center",
           fontFamily: SERIF, fontSize: 22, fontStyle: "italic", lineHeight: 1,
-        }}>B</div>
-        <div style={{ fontFamily: SANS, fontSize: 19, color: BB.ink,
-                      letterSpacing: "-0.01em", fontWeight: 500 }}>
-          Bookbind <span style={{ opacity: 0.5, fontWeight: 400 }}>Studio</span>
+        }}>J</div>
+        <div style={{ fontFamily: SANS, fontSize: 17, color: BB.ink,
+                      letterSpacing: "0.04em", fontWeight: 700 }}>
+          JUNATHETYPE
         </div>
       </a>
       <ul style={{
@@ -402,7 +436,7 @@ function Nav() {
         ))}
       </ul>
       <a href="#contact" style={{
-        background: BB.ink, color: "#fff", border: "none",
+        background: BB.ink, color: "#0d0d0d", border: "none",
         padding: "13px 22px", borderRadius: 12,
         fontFamily: SANS, fontSize: 14, fontWeight: 500, cursor: "pointer",
         textDecoration: "none", display: "inline-block",
@@ -412,128 +446,176 @@ function Nav() {
   );
 }
 
-/* ─────────────────────────── HERO (B) ─────────────────────────── */
+/* ─────────────────────────── HERO ─────────────────────────── */
 
 function Hero() {
   return (
     <section id="top" style={{
-      width: 1440, height: 900, position: "relative", overflow: "hidden",
+      width: 1440, minHeight: 900, position: "relative", overflow: "hidden",
       background: BB.cream2, color: BB.ink, fontFamily: SANS,
       scrollMarginTop: 0,
     }}>
-      <div style={{ position: "absolute", left: 0, top: 0, width: "55%", height: "100%",
-                    background: "linear-gradient(180deg, #F6F1E5 0%, #EFE7D8 100%)",
-                    pointerEvents: "none" }} />
-      <div style={{ position: "absolute", right: 0, top: 0, width: "45%", height: "100%",
-                    background: "linear-gradient(160deg, #D8E4EE 0%, #C7D8E9 100%)",
-                    pointerEvents: "none" }} />
-      <div style={{ position: "absolute", left: "52%", top: "50%",
-                    transform: "translate(-50%, -50%)",
-                    width: 540, height: 540, borderRadius: "50%",
-                    background: "linear-gradient(135deg, #E89BA9, #B6D9C2 70%, #C9BFE0)",
-                    opacity: 0.65, pointerEvents: "none" }} />
+      {/* Global keyframes */}
+      <style>{`
+        @keyframes rotateBadge { to { transform: rotate(360deg); } }
+      `}</style>
 
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr",
-                    padding: "128px 72px 0", position: "relative", zIndex: 2, pointerEvents: "auto" }}>
-        <div style={{ paddingTop: 24 }}>
-          <SectionLabel num="01" label="Typesetting · Cover · e-Book" />
+      {/* ── Scattered sparkle decorations ── */}
+      <Sparkle size={36} color={BB.ink}  style={{ position:"absolute", top:198, left:268, opacity:0.85, pointerEvents:"none" }} />
+      <Sparkle size={13} color={BB.lav}  style={{ position:"absolute", top:320, left:510, opacity:0.7, pointerEvents:"none" }} />
+      <Sparkle size={54} color={BB.ink}  style={{ position:"absolute", bottom:140, left:148, opacity:0.05, pointerEvents:"none" }} />
+      <Sparkle size={20} color={BB.pink} style={{ position:"absolute", top:152, right:210, opacity:0.55, pointerEvents:"none" }} />
+      <Sparkle size={30} color={BB.ink}  style={{ position:"absolute", bottom:240, right:280, opacity:0.1, pointerEvents:"none" }} />
+      <Sparkle size={10} color={BB.lav}  style={{ position:"absolute", bottom:360, left:660, opacity:0.45, pointerEvents:"none" }} />
 
-          <h1 style={{
-            fontFamily: PLAYPEN,
-            fontWeight: 600,
-            fontSize: 76, lineHeight: 1.1, letterSpacing: "-0.02em",
-            margin: "22px 0 0", color: BB.ink,
-          }}>
-            ทุกหน้ากระดาษ<br />
-            ควรค่าแก่<br />
-            <span style={{ fontWeight: 700, color: "#5a4a8a" }}>การอ่าน</span>
+      {/* ── Wavy arrow decoration ── */}
+      <svg width="160" height="60" viewBox="0 0 160 60" fill="none"
+           style={{ position:"absolute", top:456, left:370, opacity:0.16, pointerEvents:"none" }}>
+        <path d="M5 38 C 28 5, 56 58, 82 32 S 128 8, 155 28"
+              stroke={BB.ink} strokeWidth="1.5" strokeLinecap="round" />
+        <path d="M147 22 L155 28 L146 34" stroke={BB.ink} strokeWidth="1.5"
+              strokeLinecap="round" strokeLinejoin="round" />
+      </svg>
+
+      <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr",
+                    padding:"148px 80px 80px", position:"relative", zIndex:2 }}>
+
+        {/* ── LEFT ── */}
+        <div>
+          {/* Pill label */}
+          <div style={{ display:"inline-flex", alignItems:"center", gap:8,
+                        fontFamily:MONO, fontSize:10, letterSpacing:"0.22em", textTransform:"uppercase",
+                        color:BB.lav, border:"1px solid "+BB.lav+"44",
+                        padding:"7px 16px", borderRadius:999, marginBottom:30 }}>
+            <Sparkle size={8} color={BB.lav} />
+            Typesetting · Cover · e-Book
+          </div>
+
+          <h1 style={{ fontFamily:HEAD, fontWeight:700,
+                       fontSize:82, lineHeight:1.0, letterSpacing:"-0.03em",
+                       margin:0, color:BB.ink }}>
+            ทุกหน้ากระดาษ<br/>
+            ควรค่าแก่<br/>
+            <span style={{ color:BB.ink }}>การอ่าน</span>
           </h1>
 
-          <p style={{ margin: "32px 0 0", maxWidth: 460,
-                      fontSize: 17.5, lineHeight: 1.65, color: BB.ink2 }}>
-            Bookbind Studio รับจัดรูปเล่มนิยายระดับสำนักพิมพ์ ตั้งแต่
-            press-ready PDF, e-book ePub 3.0 ไปจนถึงประกอบปกครบสามส่วน
+          <p style={{ margin:"28px 0 0", maxWidth:420,
+                      fontSize:17, lineHeight:1.65, color:BB.ink2 }}>
+            รับจัดรูปเล่มนิยายระดับสำนักพิมพ์ ตั้งแต่ press-ready PDF,
+            e-Book ePub 3.0 ไปจนถึงประกอบปกครบสามส่วน
           </p>
 
-          <div style={{ display: "flex", flexWrap: "wrap", gap: 10, marginTop: 28 }}>
-            {[["📚","จัดเล่มพิมพ์"],["📱","e-Book ePub"],
-              ["📖","ประกอบปก"],["✦","Footnotes & Tables"]].map(([i, t], k) => (
-              <div key={k} style={{
-                display: "inline-flex", alignItems: "center", gap: 8,
-                background: "#fff", padding: "10px 14px", borderRadius: 12,
-                fontSize: 13.5, color: BB.ink,
-                boxShadow: "0 4px 14px -8px rgba(60,40,40,0.15)",
-              }}>
-                <span style={{ fontSize: 14 }}>{i}</span>{t}
+          {/* Buttons */}
+          <div style={{ display:"flex", gap:12, marginTop:36, flexWrap:"wrap" }}>
+            <a href="#pricing" style={{
+              background:BB.ink, color:"#0d0d0d", border:"none",
+              padding:"16px 28px", borderRadius:10, fontSize:15, fontWeight:600,
+              cursor:"pointer", fontFamily:SANS,
+              display:"inline-flex", alignItems:"center", gap:10, textDecoration:"none",
+            }}>คำนวณราคา <span style={{ fontSize:17 }}>→</span></a>
+            <a href="#portfolio" style={{
+              background:"transparent", color:BB.ink,
+              border:"1px solid "+BB.line,
+              padding:"16px 28px", borderRadius:10, fontSize:15, fontWeight:500,
+              cursor:"pointer", fontFamily:SANS, textDecoration:"none",
+            }}>ดูผลงาน</a>
+          </div>
+
+          {/* Stats strip */}
+          <div style={{ display:"flex", gap:48, marginTop:56, paddingTop:26,
+                        borderTop:"1px solid "+BB.line }}>
+            {[["50+","งานเสร็จ"],["100%","ส่งตรงเวลา"],["24 ชม.","ตอบกลับ"]].map(([n,l],i) => (
+              <div key={i}>
+                <div style={{ fontFamily:HEAD, fontWeight:700, fontSize:30,
+                              color:BB.ink, lineHeight:1 }}>{n}</div>
+                <div style={{ fontFamily:MONO, fontSize:9.5, letterSpacing:"0.2em",
+                              color:BB.ink2, marginTop:5, textTransform:"uppercase" }}>{l}</div>
               </div>
             ))}
           </div>
-
-          <div style={{ display: "flex", gap: 14, marginTop: 40, alignItems: "center" }}>
-            <a href="#pricing" style={{
-              background: BB.ink, color: "#fff", border: "none",
-              padding: "18px 30px", borderRadius: 14, fontSize: 15, fontWeight: 500,
-              cursor: "pointer", fontFamily: SANS,
-              display: "inline-flex", alignItems: "center", gap: 10,
-              textDecoration: "none",
-            }}>คำนวณราคา <span style={{ fontSize: 18 }}>→</span></a>
-            <a href="#queue" style={{ fontSize: 14.5, color: BB.ink, textDecoration: "underline",
-                        textUnderlineOffset: 5, cursor: "pointer" }}>หรือดูคิวปัจจุบัน</a>
-          </div>
         </div>
 
-        <div style={{ position: "relative", height: 700 }}>
+        {/* ── RIGHT — floating cards ── */}
+        <div style={{ position:"relative", height:660 }}>
+
+          {/* Rotating badge */}
+          <div style={{ position:"absolute", left:20, top:60, zIndex:4, pointerEvents:"none" }}>
+            <RotatingBadge />
+          </div>
+
+          {/* Main book spread card */}
           <div style={{
-            position: "absolute", left: 40, top: 40,
-            width: 460, height: 320, borderRadius: 6, background: "#fff",
-            boxShadow: "0 30px 60px -20px rgba(40,30,50,0.3)",
-            display: "grid", gridTemplateColumns: "1fr 1fr",
-            transform: "rotate(-3deg)",
+            position:"absolute", left:80, top:80,
+            width:440, height:296, borderRadius:6,
+            background:"#1a1714",
+            boxShadow:"0 40px 80px -20px rgba(0,0,0,0.65)",
+            display:"grid", gridTemplateColumns:"1fr 1fr",
+            transform:"rotate(-2.5deg)", zIndex:2,
+            border:"1px solid #2e2824",
           }}>
-            <div style={{ borderRight: "1px solid #ECE6DA", padding: "28px 22px",
-                          background: "linear-gradient(90deg, transparent, #faf6ec 92%)" }}>
-              <div style={{ textAlign: "center", marginBottom: 16 }}>
-                <div style={{
-                  fontFamily: PLAYPEN, fontSize: 12.5, fontWeight: 500, color: "#9b8aa4",
-                  fontStyle: "italic", marginBottom: 6,
-                }}>บทที่ 7</div>
-                <div style={{
-                  fontFamily: PLAYPEN, fontSize: 15, fontWeight: 500, lineHeight: 1.35,
-                  color: BB.ink,
-                }}>คืนหนึ่งของเดือนเมษา</div>
+            <div style={{ borderRight:"1px solid #2e2824", padding:"28px 22px",
+                          background:"linear-gradient(90deg,transparent,#1a1714 94%)" }}>
+              <div style={{ textAlign:"center", marginBottom:14 }}>
+                <div style={{ fontFamily:MONO, fontSize:11, color:BB.lav,
+                              fontStyle:"italic", marginBottom:5 }}>บทที่ 7</div>
+                <div style={{ fontFamily:HEAD, fontSize:14, fontWeight:500,
+                              lineHeight:1.3, color:BB.ink }}>คืนหนึ่งของเดือนเมษา</div>
               </div>
-              {[...Array(10)].map((_, i) => (
-                <div key={i} style={{ height: 4, background: BB.line, borderRadius: 2,
-                                       width: i === 9 ? "60%" : "100%", marginTop: 7, marginLeft: "auto", marginRight: "auto" }} />
+              {[...Array(10)].map((_,i) => (
+                <div key={i} style={{ height:3, background:"#2e2824", borderRadius:2,
+                                       width:i===9?"60%":"100%", marginTop:7 }} />
               ))}
             </div>
-            <div style={{ padding: "32px 28px",
-                          background: "linear-gradient(270deg, transparent, #faf6ec 92%)" }}>
-              {[...Array(13)].map((_, i) => (
-                <div key={i} style={{ height: 4, background: BB.line, borderRadius: 2,
-                                       width: i === 12 ? "40%" : "100%", marginTop: 7 }} />
+            <div style={{ padding:"30px 26px", background:"linear-gradient(270deg,transparent,#1a1714 94%)" }}>
+              {[...Array(13)].map((_,i) => (
+                <div key={i} style={{ height:3, background:"#2e2824", borderRadius:2,
+                                       width:i===12?"40%":"100%", marginTop:7 }} />
               ))}
-              <div style={{ marginTop: 30, fontFamily: MONO, fontSize: 9.5,
-                            color: "#9c9587", textAlign: "center",
-                            letterSpacing: "0.2em" }}>· 142 ·</div>
+              <div style={{ marginTop:24, fontFamily:MONO, fontSize:9.5,
+                            color:BB.mute, textAlign:"center", letterSpacing:"0.2em" }}>· 142 ·</div>
             </div>
           </div>
 
+          {/* Float info card */}
           <div style={{
-            position: "absolute", right: 30, top: 20,
-            width: 200, padding: 16, borderRadius: 14, background: "#fff",
-            boxShadow: "0 14px 30px -10px rgba(40,30,50,0.2)",
-            textAlign: "center",
+            position:"absolute", right:20, top:26,
+            width:206, padding:18, borderRadius:14,
+            background:"#1c1c1c",
+            boxShadow:"0 20px 40px -14px rgba(0,0,0,0.6)",
+            transform:"rotate(2.5deg)", zIndex:3,
+            border:"1px solid "+BB.line,
           }}>
-            <div style={{ fontFamily: MONO, fontSize: 10,
-                          letterSpacing: "0.18em", color: BB.blue, textTransform: "uppercase" }}>
-              Margins
+            <div style={{ fontFamily:MONO, fontSize:9.5, letterSpacing:"0.18em",
+                          color:BB.lav, textTransform:"uppercase" }}>Press-ready</div>
+            <div style={{ fontFamily:HEAD, fontSize:14, fontWeight:600, color:BB.ink,
+                          marginTop:8, lineHeight:1.4 }}>
+              ขอบกระดาษ<br/>ตามมาตรฐานสากล
             </div>
-            <div style={{ fontFamily: PLAYPEN, fontSize: 16, fontWeight: 500, color: BB.ink,
-                          marginTop: 6, lineHeight: 1.35, textAlign: "center" }}>
-              ขอบกระดาษ<br />ตามมาตรฐานสากล
+            <div style={{ marginTop:14, display:"flex", alignItems:"center", gap:8 }}>
+              <div style={{ width:26, height:26, borderRadius:7, background:BB.lav+"22",
+                            display:"grid", placeItems:"center" }}>
+                <Sparkle size={11} color={BB.lav} />
+              </div>
+              <div style={{ fontFamily:MONO, fontSize:9, color:BB.ink2 }}>PDF/X-1a:2001</div>
             </div>
           </div>
+
+          {/* Service pills */}
+          <div style={{ position:"absolute", left:80, bottom:136,
+                        display:"flex", gap:8, flexWrap:"wrap", zIndex:3 }}>
+            {[["📚","จัดเล่มพิมพ์"],["📱","e-Book"],["📖","ปก"]].map(([ic,t],k) => (
+              <div key={k} style={{
+                display:"inline-flex", alignItems:"center", gap:6,
+                background:"#1c1c1c", padding:"8px 12px", borderRadius:8,
+                fontSize:12, color:BB.ink, border:"1px solid "+BB.line,
+              }}><span>{ic}</span>{t}</div>
+            ))}
+          </div>
+
+          {/* Sparkles around cards */}
+          <Sparkle size={22} color={BB.lav}  style={{ position:"absolute", top:14, right:148, opacity:0.6, zIndex:5, pointerEvents:"none" }} />
+          <Sparkle size={11} color={BB.ink}  style={{ position:"absolute", bottom:188, right:52, opacity:0.35, pointerEvents:"none" }} />
+          <Sparkle size={16} color={BB.pink} style={{ position:"absolute", top:396, left:16, opacity:0.5, pointerEvents:"none" }} />
         </div>
       </div>
     </section>
@@ -544,14 +626,14 @@ function Hero() {
 
 function ServiceCard({ num, icon, title, sub, items, tag, tone, exampleHref = "#portfolio" }) {
   const accents = {
-    lav:  { bg: "#EBE5F5", chip: BB.lav,  line: BB.lav },
-    pink: { bg: "#F8E4E8", chip: BB.pink, line: BB.pink },
-    mint: { bg: "#DFF0E5", chip: "#5fa37a", line: "#5fa37a" },
+    lav:  { bg: "#2a2040", chip: BB.lav,   line: BB.lav },
+    pink: { bg: "#3a1428", chip: BB.pink,  line: BB.pink },
+    mint: { bg: "#1e183a", chip: "#c084fc", line: "#c084fc" },
   };
   const a = accents[tone];
   return (
     <div style={{
-      background: "#fff", borderRadius: 20, padding: 36,
+      background: "#1c1c1c", borderRadius: 20, padding: 36,
       boxShadow: "0 4px 24px -10px rgba(60,40,40,0.10)",
       position: "relative", overflow: "hidden",
       display: "flex", flexDirection: "column", gap: 20,
@@ -614,6 +696,9 @@ function Services() {
       width: 1440, padding: "120px 72px", background: BB.paper,
       color: BB.ink, fontFamily: SANS, position: "relative",
     }}>
+      {/* Sparkle decorations */}
+      <Sparkle size={40} color={BB.ink} style={{ position:"absolute", top:80, right:80, opacity:0.06, pointerEvents:"none" }} />
+      <Sparkle size={14} color={BB.lav} style={{ position:"absolute", top:108, right:160, opacity:0.5, pointerEvents:"none" }} />
       <div style={{
         display: "grid", gridTemplateColumns: "1fr 1.2fr",
         gap: 80, alignItems: "end", marginBottom: 64,
@@ -621,13 +706,13 @@ function Services() {
         <div>
           <SectionLabel num="02" label="บริการของเรา" color={BB.lav} />
           <h2 style={{
-            fontFamily: "'Playpen Sans Thai', 'Playpen Sans', " + SANS,
+            fontFamily: HEAD,
             fontWeight: 600, fontSize: 56,
             lineHeight: 1.15, letterSpacing: "-0.02em",
             margin: "20px 0 0", color: BB.ink,
           }}>
             สามบริการหลัก<br />
-            <span style={{ fontWeight: 700, color: BB.lav }}>ครบจบในที่เดียว</span>
+            <span style={{ fontWeight: 700, color: BB.ink }}>ครบจบในที่เดียว</span>
           </h2>
         </div>
         <p style={{ fontSize: 17, lineHeight: 1.7, color: BB.ink2, maxWidth: 540, margin: 0 }}>
@@ -699,7 +784,7 @@ function PortfolioCard({ item, idx }) {
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
       <div style={{
-        background: "#fff", borderRadius: 18, padding: 24,
+        background: "#1c1c1c", borderRadius: 18, padding: 24,
         boxShadow: "0 4px 24px -10px rgba(60,40,40,0.10)",
         position: "relative", overflow: "hidden",
         aspectRatio: "3 / 4",
@@ -742,22 +827,13 @@ function Portfolio() {
   return (
     <section id="portfolio" style={{
       width: 1440, padding: "120px 72px",
-      background: "linear-gradient(180deg, #FAF6EC 0%, #F5F1E8 100%)",
+      background: "linear-gradient(180deg, #141414 0%, #0d0d0d 100%)",
       color: BB.ink, fontFamily: SANS, position: "relative", overflow: "hidden",
     }}>
-      {/* Soft decorative orb */}
-      <div style={{
-        position: "absolute", right: -160, top: 80, width: 380, height: 380,
-        borderRadius: "50%",
-        background: "radial-gradient(closest-side, #E89BA933, transparent)",
-        pointerEvents: "none",
-      }} />
-      <div style={{
-        position: "absolute", left: -120, bottom: 100, width: 320, height: 320,
-        borderRadius: "50%",
-        background: "radial-gradient(closest-side, #C9BFE044, transparent)",
-        pointerEvents: "none",
-      }} />
+      {/* Sparkle decorations */}
+      <Sparkle size={48} color={BB.ink}  style={{ position:"absolute", top:72, left:72, opacity:0.06, pointerEvents:"none" }} />
+      <Sparkle size={16} color={BB.pink} style={{ position:"absolute", top:100, left:140, opacity:0.45, pointerEvents:"none" }} />
+      <Sparkle size={11} color={BB.lav}  style={{ position:"absolute", bottom:120, right:100, opacity:0.4, pointerEvents:"none" }} />
 
       <div style={{
         display: "grid", gridTemplateColumns: "1fr auto",
@@ -766,13 +842,13 @@ function Portfolio() {
         <div>
           <SectionLabel num="03" label="ตัวอย่างผลงาน" color={BB.pink} />
           <h2 style={{
-            fontFamily: "'Playpen Sans Thai', " + SANS,
+            fontFamily: HEAD,
             fontWeight: 600, fontSize: 56,
             lineHeight: 1.15, letterSpacing: "-0.02em",
             margin: "20px 0 12px", color: BB.ink,
           }}>
             ตัวอย่าง<br />
-            <span style={{ fontWeight: 700, color: BB.pink }}>การจัดรูปเล่ม</span>
+            <span style={{ fontWeight: 700, color: BB.ink }}>การจัดรูปเล่ม</span>
           </h2>
           <p style={{ fontSize: 17, lineHeight: 1.7, color: BB.ink2, maxWidth: 540, margin: 0 }}>
             นิยายหลากแนวที่เราดูแลจัดวาง ตั้งแต่นวนิยายโรแมนติก
@@ -788,8 +864,8 @@ function Portfolio() {
               return (
                 <button key={t} type="button" onClick={() => setFilter(t)} style={{
                   padding: "9px 16px", borderRadius: 999,
-                  background: active ? BB.ink : "#fff",
-                  color: active ? "#fff" : BB.ink2,
+                  background: active ? BB.ink : "#1c1c1c",
+                  color: active ? "#0d0d0d" : BB.ink2,
                   fontSize: 13, fontFamily: SANS,
                   border: active ? "none" : "1px solid " + BB.line,
                   cursor: "pointer",
@@ -855,27 +931,23 @@ function PricingQueue() {
       background: BB.cream2, color: BB.ink, fontFamily: SANS,
       position: "relative", overflow: "hidden",
     }}>
-      <div style={{ position: "absolute", left: -140, top: 60, width: 360, height: 360,
-                    borderRadius: "50%",
-                    background: "radial-gradient(closest-side, #C7D8E955, transparent)",
-                    pointerEvents: "none" }} />
-      <div style={{ position: "absolute", right: -100, bottom: 100, width: 320, height: 320,
-                    borderRadius: "50%",
-                    background: "radial-gradient(closest-side, #B6D9C266, transparent)",
-                    pointerEvents: "none" }} />
+      {/* Sparkle decorations */}
+      <Sparkle size={44} color={BB.ink} style={{ position:"absolute", right:80, top:80, opacity:0.05, pointerEvents:"none" }} />
+      <Sparkle size={14} color={BB.lav} style={{ position:"absolute", right:148, top:112, opacity:0.45, pointerEvents:"none" }} />
+      <Sparkle size={10} color={BB.pink} style={{ position:"absolute", left:80, bottom:80, opacity:0.3, pointerEvents:"none" }} />
 
       <div style={{ display: "grid", gridTemplateColumns: "1fr 1.1fr",
                     gap: 60, alignItems: "end", marginBottom: 56, position: "relative" }}>
         <div>
           <SectionLabel num="06" label="ราคา & คิว" color={BB.blue} />
           <h2 style={{
-            fontFamily: "'Playpen Sans Thai', " + SANS,
+            fontFamily: HEAD,
             fontWeight: 600, fontSize: 56,
             lineHeight: 1.15, letterSpacing: "-0.02em",
             margin: "20px 0 0", color: BB.ink,
           }}>
             ราคาตรงไปตรงมา<br />
-            <span style={{ fontWeight: 700, color: BB.blue }}>คำนวณได้ทันที</span>
+            <span style={{ fontWeight: 700, color: BB.ink }}>คำนวณได้ทันที</span>
           </h2>
         </div>
         <p style={{ fontSize: 17, lineHeight: 1.7, color: BB.ink2,
@@ -890,12 +962,12 @@ function PricingQueue() {
                     gap: 28, position: "relative" }}>
         {/* Calculator */}
         <div style={{
-          background: "#fff", borderRadius: 24, padding: 40,
+          background: "#1c1c1c", borderRadius: 24, padding: 40,
           boxShadow: "0 6px 30px -14px rgba(60,40,40,0.14)",
         }}>
           <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
             <h3 style={{
-              fontFamily: "'Playpen Sans Thai', " + SANS,
+              fontFamily: HEAD,
               fontSize: 26, fontWeight: 600, color: BB.ink, margin: 0,
             }}>เครื่องคำนวณราคา</h3>
             <span style={{ fontFamily: MONO, fontSize: 11, color: BB.mute,
@@ -945,8 +1017,8 @@ function PricingQueue() {
                 const active = svc === v;
                 return (
                   <button key={v} onClick={() => setSvc(v)} style={{
-                    background: active ? BB.ink : "#fff",
-                    color: active ? "#fff" : BB.ink,
+                    background: active ? BB.ink : "#1c1c1c",
+                    color: active ? "#0d0d0d" : BB.ink,
                     border: "1px solid " + (active ? BB.ink : BB.line),
                     padding: "16px 14px", borderRadius: 14,
                     fontFamily: SANS, fontSize: 14, fontWeight: 500,
@@ -968,7 +1040,7 @@ function PricingQueue() {
           {svc !== "cover" && (
             <label style={{
               marginTop: 16, padding: "14px 18px", borderRadius: 12,
-              background: combo ? "#EBE5F5" : BB.paper,
+              background: combo ? "#2a2040" : BB.paper,
               border: "1px solid " + (combo ? BB.lav : BB.line),
               display: "flex", alignItems: "center", justifyContent: "space-between",
               cursor: "pointer",
@@ -1018,8 +1090,8 @@ function PricingQueue() {
                 return (
                   <div key={a.k} style={{
                     padding: "14px 14px 12px", borderRadius: 12,
-                    background: exceeded ? BB.cream : "#fff",
-                    border: "1px solid " + (exceeded ? "#c9bf9d" : BB.line),
+                    background: exceeded ? "#272727" : BB.paper,
+                    border: "1px solid " + (exceeded ? BB.lav + "88" : BB.line),
                   }}>
                     <div style={{ fontSize: 13.5, fontWeight: 500, color: BB.ink }}>
                       {a.label}
@@ -1033,7 +1105,7 @@ function PricingQueue() {
                       <button onClick={() => a.setValue(Math.max(0, a.value - 1))}
                               style={{
                         width: 28, height: 28, borderRadius: 8,
-                        border: "1px solid " + BB.line, background: "#fff",
+                        border: "1px solid " + BB.line, background: "#1c1c1c",
                         cursor: "pointer", fontSize: 16, lineHeight: 1, color: BB.ink2,
                       }}>−</button>
                       <input type="number" value={a.value} min={0} max={a.max}
@@ -1042,12 +1114,12 @@ function PricingQueue() {
                         flex: 1, minWidth: 0, padding: "6px 4px", textAlign: "center",
                         fontFamily: MONO, fontSize: 14, fontWeight: 500, color: BB.ink,
                         border: "1px solid " + BB.line, borderRadius: 8,
-                        background: "#fff", outline: "none",
+                        background: "#1c1c1c", outline: "none",
                       }} />
                       <button onClick={() => a.setValue(Math.min(a.max, a.value + 1))}
                               style={{
                         width: 28, height: 28, borderRadius: 8,
-                        border: "1px solid " + BB.line, background: "#fff",
+                        border: "1px solid " + BB.line, background: "#1c1c1c",
                         cursor: "pointer", fontSize: 16, lineHeight: 1, color: BB.ink2,
                       }}>+</button>
                     </div>
@@ -1068,7 +1140,7 @@ function PricingQueue() {
           {/* Rush */}
           <label style={{
             marginTop: 16, padding: "14px 18px", borderRadius: 12,
-            background: rush ? "#F8E4E8" : BB.paper,
+            background: rush ? "#3a1428" : BB.paper,
             border: "1px solid " + (rush ? BB.pink : BB.line),
             display: "flex", alignItems: "center", justifyContent: "space-between",
             cursor: "pointer",
@@ -1099,8 +1171,8 @@ function PricingQueue() {
           {/* Total */}
           <div style={{
             marginTop: 16, padding: 24, borderRadius: 16,
-            background: "linear-gradient(135deg, " + BB.ink + " 0%, #3a342d 100%)",
-            color: "#fff", position: "relative", overflow: "hidden",
+            background: "linear-gradient(135deg, #2a1e40 0%, #1c1c1c 100%)",
+            color: BB.ink, position: "relative", overflow: "hidden",
           }}>
             <div style={{ position: "absolute", right: -40, top: -40, width: 140, height: 140,
                           borderRadius: "50%",
@@ -1112,7 +1184,7 @@ function PricingQueue() {
                 รวมทั้งหมด {rush && "(ด่วน ×2)"}
               </div>
               <div style={{
-                fontFamily: "'Playpen Sans Thai', " + SANS,
+                fontFamily: HEAD,
                 fontSize: 56, fontWeight: 700, lineHeight: 1.1,
                 marginTop: 6, fontVariantNumeric: "tabular-nums",
               }}>
@@ -1131,7 +1203,7 @@ function PricingQueue() {
                   </div>
                 </div>
                 <a href="#contact" style={{
-                  background: "#fff", color: BB.ink, border: "none",
+                  background: "#1c1c1c", color: BB.ink, border: "none",
                   padding: "14px 22px", borderRadius: 12,
                   fontFamily: SANS, fontSize: 14, fontWeight: 500, cursor: "pointer",
                   display: "inline-flex", alignItems: "center", gap: 8,
@@ -1148,9 +1220,12 @@ function PricingQueue() {
         </div>
       </div>
 
-      <style>{`@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.35}}`}</style>
+      <style>{`
+        @keyframes pulse{0%,100%{opacity:1}50%{opacity:0.35}}
+        @keyframes rotateBadge{to{transform:rotate(360deg)}}
+      `}</style>
     </section>
   );
 }
 
-Object.assign(window, { Hero, Services, Portfolio, PricingQueue, BB, SERIF, SANS, MONO, SectionLabel, PlaceholderBookCover, Nav });
+Object.assign(window, { Hero, Services, Portfolio, PricingQueue, BB, SERIF, SANS, MONO, HEAD, SectionLabel, Sparkle, RotatingBadge, Nav });

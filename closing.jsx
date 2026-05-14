@@ -1,9 +1,9 @@
 /* global React */
-/* Bookbind Studio — Process, Terms, Blog, Contact, CTA */
+/* JUNATHETYPE — Process, Terms, Blog, Contact, CTA */
 
 (function () {
-  const { BB, SERIF, SANS, MONO, SectionLabel } = window;
-  const CONTACT_EMAIL = "hello@bookbind.studio";
+  const { BB, SERIF, SANS, MONO, HEAD, SectionLabel, Sparkle } = window;
+  const CONTACT_EMAIL = "hello@junathetype.com";
 
   /* ─────────────────────────── PROCESS (5 steps) ─────────────────────────── */
   function Process() {
@@ -17,20 +17,17 @@
 
     return (
       <section id="process" style={{
-        background: "linear-gradient(180deg, #FAF6EC 0%, #F5EFE0 100%)",
+        background: "linear-gradient(180deg, #141414 0%, #0d0d0d 100%)",
         padding: "100px 64px 96px",
         position: "relative",
         fontFamily: SANS,
         color: BB.ink,
         overflow: "hidden",
       }}>
-        {/* deco */}
-        <div style={{
-          position: "absolute", right: -120, top: 60,
-          width: 280, height: 280, borderRadius: "50%",
-          background: "radial-gradient(closest-side, " + BB.blueSoft + "aa, transparent)",
-          pointerEvents: "none",
-        }} />
+        {/* Sparkle decorations */}
+        <Sparkle size={42} color={BB.ink}  style={{ position:"absolute", top:72, right:72, opacity:0.05, pointerEvents:"none" }} />
+        <Sparkle size={14} color={BB.lav}  style={{ position:"absolute", top:100, right:140, opacity:0.45, pointerEvents:"none" }} />
+        <Sparkle size={10} color={BB.pink} style={{ position:"absolute", bottom:80, left:72, opacity:0.3, pointerEvents:"none" }} />
 
         <div style={{ maxWidth: 1280, margin: "0 auto", position: "relative" }}>
           <SectionLabel num="04" label="Process · 5 steps" />
@@ -40,11 +37,11 @@
             display: "flex", alignItems: "end", justifyContent: "space-between", gap: 40,
           }}>
             <h2 style={{
-              fontFamily: "'Playpen Sans Thai', " + SANS, fontWeight: 600,
+              fontFamily: HEAD, fontWeight: 600,
               fontSize: 56, lineHeight: 1.05, letterSpacing: "-0.02em",
               margin: 0, color: BB.ink, maxWidth: 720,
             }}>
-              จากต้นฉบับ <em style={{ fontStyle: "italic", color: BB.pink }}>ถึงเล่มจริง</em><br />
+              จากต้นฉบับ <em style={{ fontStyle: "italic", color: BB.ink }}>ถึงเล่มจริง</em><br />
               ประมาณ 12 วัน
             </h2>
             <div style={{
@@ -84,14 +81,14 @@
                   }}>
                     <div style={{
                       width: 72, height: 72, borderRadius: "50%",
-                      background: "#fff",
+                      background: "#1c1c1c",
                       border: "2px solid " + c,
                       display: "grid", placeItems: "center",
                       boxShadow: "0 8px 22px -10px " + c,
                       position: "relative", zIndex: 2,
                     }}>
                       <div style={{
-                        fontFamily: "'Playpen Sans Thai', " + SANS,
+                        fontFamily: HEAD,
                         fontWeight: 600, fontSize: 22, color: c, lineHeight: 1,
                       }}>{s.num}</div>
                     </div>
@@ -104,7 +101,7 @@
 
                     <div style={{
                       marginTop: 10,
-                      fontFamily: "'Playpen Sans Thai', " + SANS,
+                      fontFamily: HEAD,
                       fontWeight: 600, fontSize: 18, color: BB.ink, lineHeight: 1.25,
                     }}>{s.title}</div>
 
@@ -128,7 +125,7 @@
       {
         tag: "Round 1",
         chip: "ดราฟอาร์ตเวิร์ค",
-        chipBg: "#EBE5F5",
+        chipBg: "#2a2040",
         chipFg: BB.lav,
         title: "ตรวจฟอนต์ + หน้าเปิดบท",
         body: "ก่อนเริ่มจัดทั้งเล่ม เราจะส่งดราฟอาร์ตเวิร์คให้คุณตรวจฟอนต์และหน้าเปิดหัวบทก่อน เมื่อคอนเฟิร์มแล้ว เราจะเริ่มจัดทั้งเล่ม",
@@ -136,7 +133,7 @@
       {
         tag: "Round 2",
         chip: "ส่งทั้งเล่ม · มีลายน้ำ",
-        chipBg: "#FBE6EA",
+        chipBg: "#3a1428",
         chipFg: BB.pink,
         title: "ตรวจบรูฟทั้งเล่ม",
         body: "เราส่งงานทั้งเล่มแบบมีลายน้ำให้ตรวจ โดยเราตรวจสอบคำตัด·คำฉีกให้แล้วชั้นหนึ่ง คุณสามารถวงแก้ในไฟล์ PDF หรือพิมพ์บรูฟแล้วส่ง PDF กลับมาก็ได้ ดังนั้นไฟล์ต้นฉบับที่ส่งมาจัดควรเป็นไฟล์ที่สมบูรณ์ 100% และผ่านการบรูฟแล้ว เพื่อให้การทำงานราบรื่นที่สุด",
@@ -145,8 +142,8 @@
       {
         tag: "Round 3",
         chip: "ตรวจครั้งสุดท้าย",
-        chipBg: "#DEEEE3",
-        chipFg: "#3f8a5a",
+        chipBg: "#1a3028",
+        chipFg: "#4ade80",
         title: "คอนเฟิร์ม · ปิดยอด · รับไฟล์",
         body: "เมื่อแก้ไขครบ เราส่งให้ตรวจรอบสุดท้าย เมื่อคอนเฟิร์มแล้วและชำระเงินส่วนที่เหลือ เราจะส่งไฟล์งานให้ทันที",
         note: "หลังคอนเฟิร์มรอบนี้ การแก้ไขทุกกรณีจะมีค่าใช้จ่ายเพิ่ม",
@@ -181,11 +178,11 @@
             display: "grid", gridTemplateColumns: "1.05fr 0.95fr", gap: 60, alignItems: "end",
           }}>
             <h2 style={{
-              fontFamily: "'Playpen Sans Thai', " + SANS, fontWeight: 600,
+              fontFamily: HEAD, fontWeight: 600,
               fontSize: 52, lineHeight: 1.05, letterSpacing: "-0.02em",
               margin: 0, color: BB.ink,
             }}>
-              ข้อตกลง <em style={{ fontStyle: "italic", color: BB.blue }}>การส่งงานและการแก้ไข</em>
+              ข้อตกลง <em style={{ fontStyle: "italic", color: BB.ink }}>การส่งงานและการแก้ไข</em>
             </h2>
             <p style={{
               margin: 0, maxWidth: 460, fontSize: 16, lineHeight: 1.7, color: BB.ink2,
@@ -202,7 +199,7 @@
           }}>
             {rounds.map((r, i) => (
               <div key={i} style={{
-                background: "#fff",
+                background: "#1c1c1c",
                 borderRadius: 22, padding: "28px 28px 26px",
                 border: "1px solid " + BB.line,
                 boxShadow: "0 6px 24px -16px rgba(60,40,40,0.18)",
@@ -225,7 +222,7 @@
                 </div>
 
                 <h3 style={{
-                  fontFamily: "'Playpen Sans Thai', " + SANS,
+                  fontFamily: HEAD,
                   fontWeight: 600, fontSize: 22, margin: 0, color: BB.ink, lineHeight: 1.25,
                 }}>{r.title}</h3>
 
@@ -256,8 +253,9 @@
           }}>
             {/* Payment strip */}
             <div style={{
-              background: BB.ink, color: BB.cream,
+              background: "linear-gradient(135deg, #1c1c1c 0%, #252030 100%)", color: BB.ink,
               borderRadius: 22, padding: "28px 30px",
+              border: "1px solid " + BB.lav + "44",
               display: "flex", flexDirection: "column", gap: 18,
               position: "relative", overflow: "hidden",
             }}>
@@ -274,17 +272,17 @@
               <div style={{ display: "flex", gap: 20, position: "relative" }}>
                 <div style={{ flex: 1 }}>
                   <div style={{
-                    fontFamily: "'Playpen Sans Thai', " + SANS,
+                    fontFamily: HEAD,
                     fontSize: 38, fontWeight: 600, lineHeight: 1,
                   }}>50<span style={{ fontSize: 22, opacity: 0.7 }}>%</span></div>
                   <div style={{ fontSize: 12.5, opacity: 0.7, marginTop: 8 }}>
                     มัดจำเมื่อยืนยันงาน
                   </div>
                 </div>
-                <div style={{ width: 1, background: BB.cream + "33" }} />
+                <div style={{ width: 1, background: BB.line }} />
                 <div style={{ flex: 1 }}>
                   <div style={{
-                    fontFamily: "'Playpen Sans Thai', " + SANS,
+                    fontFamily: HEAD,
                     fontSize: 38, fontWeight: 600, lineHeight: 1,
                   }}>50<span style={{ fontSize: 22, opacity: 0.7 }}>%</span></div>
                   <div style={{ fontSize: 12.5, opacity: 0.7, marginTop: 8 }}>
@@ -310,7 +308,7 @@
                 }}>Free add-ons</div>
                 <span style={{
                   fontFamily: MONO, fontSize: 10.5, letterSpacing: "0.18em",
-                  textTransform: "uppercase", color: "#3f8a5a", fontWeight: 600,
+                  textTransform: "uppercase", color: BB.mint, fontWeight: 600,
                 }}>ฟรีทุกงาน</span>
               </div>
               <div style={{
@@ -322,14 +320,14 @@
                   }}>
                     <div style={{
                       width: 38, height: 38, borderRadius: 12,
-                      background: "#fff", border: "1px solid " + BB.line,
+                      background: "#1c1c1c", border: "1px solid " + BB.line,
                       display: "grid", placeItems: "center",
-                      fontFamily: SERIF, fontSize: 20, color: "#3f8a5a",
+                      fontFamily: SERIF, fontSize: 20, color: BB.mint,
                       flexShrink: 0,
                     }}>{f.icon}</div>
                     <div>
                       <div style={{
-                        fontFamily: "'Playpen Sans Thai', " + SANS,
+                        fontFamily: HEAD,
                         fontWeight: 600, fontSize: 16.5, color: BB.ink, lineHeight: 1.3,
                       }}>{f.title}</div>
                       <div style={{
@@ -374,6 +372,9 @@
         color: BB.ink,
         position: "relative",
       }}>
+        {/* Sparkle decorations */}
+        <Sparkle size={38} color={BB.ink}  style={{ position:"absolute", top:72, left:72, opacity:0.05, pointerEvents:"none" }} />
+        <Sparkle size={12} color={BB.lav}  style={{ position:"absolute", top:96, left:136, opacity:0.4, pointerEvents:"none" }} />
         <div style={{ maxWidth: 1280, margin: "0 auto" }}>
           <SectionLabel num="07" label="บล็อก · บทความ" color={BB.lav} />
 
@@ -382,12 +383,12 @@
             display: "grid", gridTemplateColumns: "1.1fr 0.9fr", gap: 48, alignItems: "end",
           }}>
             <h2 style={{
-              fontFamily: "'Playpen Sans Thai', " + SANS, fontWeight: 600,
+              fontFamily: HEAD, fontWeight: 600,
               fontSize: 48, lineHeight: 1.1, letterSpacing: "-0.02em",
               margin: 0, color: BB.ink,
             }}>
               เคล็ดจัดเล่ม<br />
-              <span style={{ color: BB.blue }}>สำหรับนักเขียน</span>
+              <span style={{ color: BB.ink }}>สำหรับนักเขียน</span>
             </h2>
             <p style={{ margin: 0, fontSize: 16, lineHeight: 1.65, color: BB.ink2, maxWidth: 420 }}>
               อัปเดตเป็นครั้งคราว — หากอยากให้เขียนหัวข้อไหนเป็นพิเศษ แจ้งเราได้ที่ช่องทางติดต่อ
@@ -399,7 +400,7 @@
           }}>
             {posts.map((p, i) => (
               <article key={i} style={{
-                background: "#fff", borderRadius: 20, padding: "28px 26px 24px",
+                background: "#1c1c1c", borderRadius: 20, padding: "28px 26px 24px",
                 border: "1px solid " + BB.line,
                 boxShadow: "0 6px 22px -14px rgba(60,40,40,0.12)",
                 display: "flex", flexDirection: "column", gap: 12, minHeight: 220,
@@ -409,7 +410,7 @@
                   textTransform: "uppercase", color: BB.mute,
                 }}>{p.tag}</span>
                 <h3 style={{
-                  fontFamily: "'Playpen Sans Thai', " + SANS, fontWeight: 600,
+                  fontFamily: HEAD, fontWeight: 600,
                   fontSize: 18, lineHeight: 1.35, margin: 0, color: BB.ink,
                 }}>{p.title}</h3>
                 <p style={{ margin: 0, fontSize: 14, lineHeight: 1.6, color: BB.ink2, flex: 1 }}>
@@ -438,7 +439,7 @@
       const name = String(fd.get("name") || "").trim();
       const email = String(fd.get("email") || "").trim();
       const message = String(fd.get("message") || "").trim();
-      const subject = encodeURIComponent("[Bookbind Studio] สอบถามจาก " + (name || "เว็บไซต์"));
+      const subject = encodeURIComponent("[JUNATHETYPE] สอบถามจาก " + (name || "เว็บไซต์"));
       const body = encodeURIComponent(
         (name ? "ชื่อ: " + name + "\n" : "") +
         (email ? "อีเมล: " + email + "\n\n" : "\n") +
@@ -463,12 +464,12 @@
           }}>
             <div>
               <h2 style={{
-                fontFamily: "'Playpen Sans Thai', " + SANS, fontWeight: 600,
+                fontFamily: HEAD, fontWeight: 600,
                 fontSize: 44, lineHeight: 1.12, letterSpacing: "-0.02em",
                 margin: 0, color: BB.ink,
               }}>
                 ส่งต้นฉบับหรือสอบถาม<br />
-                <span style={{ color: BB.pink }}>เราตอบภายใน 24 ชม.</span>
+                <span style={{ color: BB.ink }}>เราตอบภายใน 24 ชม.</span>
               </h2>
               <p style={{ margin: "18px 0 0", fontSize: 15.5, lineHeight: 1.65, color: BB.ink2, maxWidth: 420 }}>
                 กรอกแบบฟอร์มด้านขวาแล้วกดส่ง — จะเปิดโปรแกรมอีเมลของคุณพร้อมข้อความ
@@ -479,10 +480,10 @@
                   fontFamily: MONO, fontSize: 14, color: BB.ink, textDecoration: "none",
                   borderBottom: "1px solid " + BB.line, paddingBottom: 4, display: "inline-block", width: "fit-content",
                 }}>{CONTACT_EMAIL}</a>
-                <a href="https://line.me/ti/p/~@bookbindstudio" target="_blank" rel="noopener noreferrer" style={{
+                <a href="https://line.me/ti/p/~@junathetype" target="_blank" rel="noopener noreferrer" style={{
                   fontSize: 14.5, color: BB.ink2, textDecoration: "none",
                 }}>
-                  Line Official <span style={{ color: BB.lav }}>→</span> <span style={{ fontFamily: MONO, fontSize: 12, color: BB.mute }}>@bookbindstudio</span>
+                  Line Official <span style={{ color: BB.lav }}>→</span> <span style={{ fontFamily: MONO, fontSize: 12, color: BB.mute }}>@junathetype</span>
                 </a>
                 <span style={{ fontSize: 13, color: BB.mute }}>
                   แก้ ID Line ในไฟล์ closing.jsx ให้ตรงกับบัญชีจริงของคุณ
@@ -491,7 +492,7 @@
             </div>
 
             <form onSubmit={onSubmit} style={{
-              background: "#fff", borderRadius: 22, padding: "32px 28px",
+              background: "#1c1c1c", borderRadius: 22, padding: "32px 28px",
               border: "1px solid " + BB.line,
               boxShadow: "0 8px 28px -16px rgba(60,40,40,0.15)",
               display: "flex", flexDirection: "column", gap: 16,
@@ -502,6 +503,7 @@
                        style={{
                          padding: "12px 14px", borderRadius: 12, border: "1px solid " + BB.line,
                          fontFamily: SANS, fontSize: 15, outline: "none",
+                         background: "#141414", color: BB.ink,
                        }} />
               </label>
               <label style={{ display: "flex", flexDirection: "column", gap: 6 }}>
@@ -510,6 +512,7 @@
                        style={{
                          padding: "12px 14px", borderRadius: 12, border: "1px solid " + BB.line,
                          fontFamily: SANS, fontSize: 15, outline: "none",
+                         background: "#141414", color: BB.ink,
                        }} />
               </label>
               <label style={{ display: "flex", flexDirection: "column", gap: 6 }}>
@@ -518,10 +521,11 @@
                           style={{
                             padding: "12px 14px", borderRadius: 12, border: "1px solid " + BB.line,
                             fontFamily: SANS, fontSize: 15, outline: "none", resize: "vertical",
+                            background: "#141414", color: BB.ink,
                           }} />
               </label>
               <button type="submit" style={{
-                marginTop: 4, background: BB.ink, color: "#fff", border: "none",
+                marginTop: 4, background: BB.ink, color: "#0d0d0d", border: "none",
                 padding: "16px 22px", borderRadius: 14, fontFamily: SANS, fontSize: 15,
                 fontWeight: 500, cursor: "pointer",
               }}>
@@ -541,15 +545,20 @@
         background: BB.paper,
         padding: "64px 64px 100px",
         fontFamily: SANS,
+        position: "relative",
       }}>
+        {/* Sparkle decorations */}
+        <Sparkle size={52} color={BB.ink} style={{ position:"absolute", top:30, right:100, opacity:0.04, pointerEvents:"none" }} />
+        <Sparkle size={16} color={BB.lav} style={{ position:"absolute", top:56, right:168, opacity:0.35, pointerEvents:"none" }} />
         <div style={{ maxWidth: 1280, margin: "0 auto" }}>
           <div style={{
-            background: BB.ink,
-            color: BB.cream,
+            background: "linear-gradient(135deg, #1c1c1c 0%, #1a1625 100%)",
+            color: BB.ink,
             borderRadius: 28,
             padding: "44px 56px",
             display: "grid", gridTemplateColumns: "1.3fr 1fr", gap: 40,
             alignItems: "center",
+            border: "1px solid " + BB.lav + "33",
             boxShadow: "0 30px 60px -30px rgba(40,30,40,0.4)",
             position: "relative", overflow: "hidden",
           }}>
@@ -567,21 +576,24 @@
             }} />
 
             <div style={{ position: "relative", zIndex: 1 }}>
-              <div style={{
+              <div style={{ display:"inline-flex", alignItems:"center", gap:8,
                 fontFamily: MONO, fontSize: 11, letterSpacing: "0.22em",
-                textTransform: "uppercase", color: BB.cream, opacity: 0.55,
-              }}>Ready when you are</div>
+                textTransform: "uppercase", color: BB.ink, opacity: 0.55,
+              }}>
+                <Sparkle size={9} color={BB.lav} style={{ opacity:1.0 }} />
+                Ready when you are
+              </div>
               <h3 style={{
-                fontFamily: "'Playpen Sans Thai', " + SANS, fontWeight: 600,
+                fontFamily: HEAD, fontWeight: 600,
                 margin: "14px 0 0",
                 fontSize: 44, lineHeight: 1.1, letterSpacing: "-0.02em",
-                color: BB.cream,
+                color: BB.ink,
               }}>
-                พร้อมเริ่มเล่มต่อไป <em style={{ fontStyle: "italic", color: BB.pink }}>ของคุณ</em>?
+                พร้อมเริ่มเล่มต่อไป <em style={{ fontStyle: "italic", color: BB.ink }}>ของคุณ</em>?
               </h3>
               <p style={{
                 margin: "16px 0 0", fontSize: 15.5, lineHeight: 1.65,
-                color: BB.cream, opacity: 0.75, maxWidth: 460,
+                color: BB.ink, opacity: 0.75, maxWidth: 460,
               }}>
                 ส่งต้นฉบับมาดูก่อนได้ฟรี เราจะตอบกลับพร้อมประเมินราคาภายใน 24 ชั่วโมง
               </p>
@@ -592,7 +604,7 @@
               position: "relative", zIndex: 1,
             }}>
               <a href="#contact" style={{
-                background: BB.cream, color: BB.ink, border: "none",
+                background: BB.ink, color: "#0d0d0d", border: "none",
                 padding: "18px 28px", borderRadius: 14,
                 fontFamily: SANS, fontSize: 15.5, fontWeight: 500, cursor: "pointer",
                 display: "inline-flex", alignItems: "center", justifyContent: "space-between",
@@ -602,8 +614,8 @@
                 <span style={{ fontSize: 18 }}>→</span>
               </a>
               <a href="#pricing" style={{
-                background: "transparent", color: BB.cream,
-                border: "1.5px solid " + BB.cream + "55",
+                background: "transparent", color: BB.ink,
+                border: "1.5px solid " + BB.ink + "44",
                 padding: "18px 28px", borderRadius: 14,
                 fontFamily: SANS, fontSize: 15.5, fontWeight: 500, cursor: "pointer",
                 display: "inline-flex", alignItems: "center", justifyContent: "space-between",
@@ -615,7 +627,7 @@
               <div style={{
                 marginTop: 4,
                 fontFamily: MONO, fontSize: 10.5, letterSpacing: "0.16em",
-                textTransform: "uppercase", color: BB.cream, opacity: 0.5,
+                textTransform: "uppercase", color: BB.ink, opacity: 0.5,
                 textAlign: "center",
               }}>Line · Email · ส่งไฟล์ได้เลย</div>
             </div>
