@@ -787,7 +787,7 @@ function PortfolioCard({ item, idx }) {
         background: "#1c1c1c", borderRadius: 18,
         boxShadow: "0 4px 24px -10px rgba(60,40,40,0.10)",
         position: "relative", overflow: "hidden",
-        aspectRatio: "3 / 4",
+        ...(item.src ? {} : { aspectRatio: "3 / 4" }),
       }}>
         <div style={{
           position: "absolute", left: 12, top: 12, zIndex: 2,
@@ -797,13 +797,17 @@ function PortfolioCard({ item, idx }) {
           background: "rgba(0,0,0,0.4)", padding: "3px 7px", borderRadius: 5,
         }}>#{String(idx + 1).padStart(2, "0")}</div>
 
-        <div style={{ position: "absolute", inset: 0 }} dangerouslySetInnerHTML={{
-          __html: `<image-slot id="portfolio-${item.id}" shape="rect" radius="0"
-                                style="width:100%;height:100%;display:block;"
-                                fit="contain"
-                                src="${item.src || ''}"
-                                placeholder="วางรูปผลงานที่นี่"></image-slot>`
-        }} />
+        {item.src ? (
+          <img src={item.src} alt={item.type}
+               style={{ width: "100%", display: "block", borderRadius: 18 }} />
+        ) : (
+          <div style={{ position: "absolute", inset: 0 }} dangerouslySetInnerHTML={{
+            __html: `<image-slot id="portfolio-${item.id}" shape="rect" radius="0"
+                                  style="width:100%;height:100%;display:block;"
+                                  fit="contain"
+                                  placeholder="วางรูปผลงานที่นี่"></image-slot>`
+          }} />
+        )}
       </div>
 
       <div>
