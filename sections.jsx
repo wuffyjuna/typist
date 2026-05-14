@@ -770,7 +770,7 @@ function Services() {
 /* ─────────────────────────── PORTFOLIO ─────────────────────────── */
 
 const PORTFOLIO = [
-  { id: "p1", tone: "lavender", type: "นิยายรัก", note: "Press + Cover" },
+  { id: "p1", tone: "lavender", type: "นิยายรัก", note: "Press + Cover", src: "./Pic/1.png" },
   { id: "p2", tone: "pink",     type: "นวนิยาย",   note: "ePub 3.0 + Press" },
   { id: "p3", tone: "cream",    type: "เรื่องสั้น", note: "Anthology" },
   { id: "p4", tone: "mint",     type: "สืบสวน",     note: "Press-ready" },
@@ -800,6 +800,7 @@ function PortfolioCard({ item, idx }) {
         <div dangerouslySetInnerHTML={{
           __html: `<image-slot id="portfolio-${item.id}" shape="rounded" radius="6"
                                 style="width:175px;height:255px;display:block;"
+                                src="${item.src || ''}"
                                 placeholder="ตัวอย่างผลงาน"></image-slot>`
         }} />
       </div>
