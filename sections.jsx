@@ -800,7 +800,7 @@ function PortfolioCard({ item, idx }) {
         <div style={{ position: "absolute", inset: 0 }} dangerouslySetInnerHTML={{
           __html: `<image-slot id="portfolio-${item.id}" shape="rect" radius="0"
                                 style="width:100%;height:100%;display:block;"
-                                fit="cover"
+                                fit="contain"
                                 src="${item.src || ''}"
                                 placeholder="วางรูปผลงานที่นี่"></image-slot>`
         }} />
