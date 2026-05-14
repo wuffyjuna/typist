@@ -784,24 +784,25 @@ function PortfolioCard({ item, idx }) {
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
       <div style={{
-        background: "#1c1c1c", borderRadius: 18, padding: 24,
+        background: "#1c1c1c", borderRadius: 18,
         boxShadow: "0 4px 24px -10px rgba(60,40,40,0.10)",
         position: "relative", overflow: "hidden",
         aspectRatio: "3 / 4",
-        display: "grid", placeItems: "center",
       }}>
         <div style={{
-          position: "absolute", left: 14, top: 14,
+          position: "absolute", left: 12, top: 12, zIndex: 2,
           fontFamily: MONO, fontSize: 10, letterSpacing: "0.2em",
-          color: BB.mute, textTransform: "uppercase",
+          color: "rgba(255,255,255,0.5)", textTransform: "uppercase",
           pointerEvents: "none",
+          background: "rgba(0,0,0,0.4)", padding: "3px 7px", borderRadius: 5,
         }}>#{String(idx + 1).padStart(2, "0")}</div>
 
-        <div dangerouslySetInnerHTML={{
-          __html: `<image-slot id="portfolio-${item.id}" shape="rounded" radius="6"
-                                style="width:175px;height:255px;display:block;"
+        <div style={{ position: "absolute", inset: 0 }} dangerouslySetInnerHTML={{
+          __html: `<image-slot id="portfolio-${item.id}" shape="rect" radius="0"
+                                style="width:100%;height:100%;display:block;"
+                                fit="cover"
                                 src="${item.src || ''}"
-                                placeholder="ตัวอย่างผลงาน"></image-slot>`
+                                placeholder="วางรูปผลงานที่นี่"></image-slot>`
         }} />
       </div>
 
